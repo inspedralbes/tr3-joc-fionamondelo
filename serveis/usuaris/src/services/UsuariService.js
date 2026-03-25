@@ -16,7 +16,7 @@ async function loginUsuari(repo, nomUsuari, contrasenya) {
     const usuari = await repo.findByNomUsuari(nomUsuari);
 
     if (!usuari) {
-        throw new Error('L\'usuari no existeix');
+        throw new Error('usuari no existeix');
     }
     const esCorrecta = await usuari.compararContrasenya(contrasenya);
 
