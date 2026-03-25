@@ -1,20 +1,19 @@
-class IRepository {
-    async findById(id) {
+const IRepository = {
+    findById: async (id) => {
         throw new Error('Mètode findById no implementat');
-    }
-    async findAll() {
+    },
+    findAll: async () => {
         throw new Error('Mètode findAll no implementat');
-    }
-
-    async create(data) {
+    },
+    create: async (data) => {
         throw new Error('Mètode create no implementat');
-    }
-    async update(id, data) {
+    },
+    update: async (id, data) => {
         throw new Error('Mètode update no implementat');
-    }
-    async delete(id) {
+    },
+    delete: async (id) => {
         throw new Error('Mètode delete no implementat');
     }
-}
+};
 
 module.exports = IRepository;
