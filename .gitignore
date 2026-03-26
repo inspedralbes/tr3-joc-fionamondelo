@@ -14,3 +14,9 @@ BombermanTR3/.vs/
 BombermanTR3/Build/
 BombermanTR3/*.suo
 BombermanTR3/*.userprefs
+
+# Unity generated
+BombermanTR3/Assembly-CSharp.csproj
+BombermanTR3/BombermanTR3.slnx
+BombermanTR3/UserSettings/
+tr3-joc-fionamondelo.sln
