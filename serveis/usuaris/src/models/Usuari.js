@@ -21,18 +21,13 @@ const UsuariSchema = new mongoose.Schema({
     }
 });
 
-UsuariSchema.pre('save', async function (next) {
+UsuariSchema.pre('save', async function () {
     if (!this.isModified('contrasenya')) {
-        return next();
+        return;
     }
 
-    try {
-        const hash = await bcrypt.hash(this.contrasenya, 10);
-        this.contrasenya = hash;
-        next();
-    } catch (error) {
-        next(error);
-    }
+    const hash = await bcrypt.hash(this.contrasenya, 10);
+    this.contrasenya = hash;
 });
 
 
