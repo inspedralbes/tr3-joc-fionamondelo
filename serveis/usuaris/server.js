@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: '../../.env' });
 
 const express = require('express');
 const cors = require('cors');
@@ -21,7 +21,7 @@ mongoose.connect(mongoUri)
     });
 
 
-app.get('/health', function (req, res) {
+app.get('/api/usuaris/health', function (req, res) {
     res.status(200).json({
         status: 'ok',
         servei: 'usuaris'

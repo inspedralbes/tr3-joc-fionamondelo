@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: '../../.env' });
 const { WebSocketServer } = require('ws');
 const port = process.env.PORT || 3003;
 const wss = new WebSocketServer({ port: port });
@@ -22,7 +22,7 @@ wss.on('connection', function (ws) {
                 }
 
                 sales.get(codiSala).add(ws);
-                ws.codiSala = codiSala; 
+                ws.codiSala = codiSala;
 
                 console.log('Client unit a la sala: ' + codiSala);
                 return;
@@ -35,7 +35,7 @@ wss.on('connection', function (ws) {
                     const clientsEnSala = sales.get(ws.codiSala);
 
                     clientsEnSala.forEach(function (client) {
-                        if (client !== ws && client.readyState === 1) { 
+                        if (client !== ws && client.readyState === 1) {
                             client.send(JSON.stringify(missatge));
                         }
                     });

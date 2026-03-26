@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  usuaris:
+    build: ./serveis/usuaris
+    restart: unless-stopped
+    environment:
+      - MONGO_URI=${MONGO_URI}
+    networks:
+      - bomberman-net
+
+  partides:
+    build: ./serveis/partides
+    restart: unless-stopped
+    environment:
+      - MONGO_URI=${MONGO_URI}
+    networks:
+      - bomberman-net
+
+  websocket:
+    build: ./serveis/websocket
+    restart: unless-stopped
+    networks:
+      - bomberman-net
+
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - usuaris
+      - partides
+      - websocket
+    networks:
+      - bomberman-net
+
+networks:
+  bomberman-net:
+    driver: bridge

@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: '../../.env' });
 
 const express = require('express');
 const cors = require('cors');
@@ -20,7 +20,7 @@ mongoose.connect(mongoUri)
         console.error('Error en la connexió a MongoDB:', error);
     });
 
-app.get('/health', function (req, res) {
+app.get('/api/partides/health', function (req, res) {
     res.status(200).json({
         status: 'ok',
         servei: 'partides'
