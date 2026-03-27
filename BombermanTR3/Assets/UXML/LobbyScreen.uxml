@@ -1,0 +1,13 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/USS/LobbyStyles.uss?fileID=7433441132597879392&amp;guid=17c2cf17b2febf7acbc39794544421ad&amp;type=3#LobbyStyles" />
+    <ui:VisualElement name="Contenidor" style="flex-grow: 1;">
+        <ui:Label text="MODE JOC" name="TextBenvinguda" selectable="true" style="-unity-text-align: upper-center; font-size: 20px;" />
+        <ui:Button text="Crear partida" parse-escape-sequences="false" name="BotoCrearPartida" style="-unity-text-align: middle-center;" />
+        <ui:TextField label="Codi Sala" placeholder-text="..." name="InputCodiSala" readonly="true" />
+        <ui:Button text="Unir-se" name="BotoUnirse" />
+        <ui:Label text="Codi sala: " name="TextCodiSala" />
+        <ui:Label text="Estat" emoji-fallback-support="false" name="TextEstat" style="font-size: 15px;" />
+        <ui:Label text="Error:" name="TextError" parse-escape-sequences="false" style="font-size: 15px;" />
+        <ui:Button text="Iniciar partida" name="BotoIniciar" emoji-fallback-support="false" style="display: none;" />
+    </ui:VisualElement>
+</ui:UXML>

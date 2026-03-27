@@ -10,6 +10,7 @@ router.post('/crear', async function (req, res) {
         const partida = await PartidaService.crearPartida(repo);
         res.status(201).json(partida);
     } catch (error) {
+        console.log('error:', error.message);
         res.status(400).json({ error: error.message });
     }
 });

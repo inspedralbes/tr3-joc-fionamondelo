@@ -39,10 +39,10 @@ public class ApiManager : MonoBehaviour
     }
 
     public IEnumerator CrearPartida(Action<string> onSuccess, Action<string> onError)
-    {
-        string url = BASE_URL + "/api/partides/crear";
-        yield return PostRequest(url, "{}", onSuccess, onError);
-    }
+{
+    string url = BASE_URL + "/api/partides/crear";
+    yield return PostRequest(url, "{}", onSuccess, onError);
+}
 
     public IEnumerator UnirsePartida(string codiSala, string usuariId, Action<string> onSuccess, Action<string> onError)
     {
@@ -92,4 +92,5 @@ public class ApiManager : MonoBehaviour
     private class JoinGame { public string codiSala; public string usuariId; }
     [Serializable]
     private class EndGame { public string codiSala; public string guanyadorId; }
+   
 }

@@ -29,7 +29,7 @@ async function unirsePartida(repo, codiSala, usuariId) {
         throw new Error('No et pots unir si la partida està en espera');
     }
 
-    if (partida.jugadors.length >= 2) {
+    if (partida.jugadors.length >= 1) {
         throw new Error('Màxim de jugadors )');
     }
 

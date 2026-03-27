@@ -35,13 +35,13 @@ public class LoginController : MonoBehaviour
 
         StartCoroutine(ApiManager.Instance.LoginUsuari(nom, pass, 
             (json) => {
-                
+                Debug.Log("Resposta login: " + json);
                 UserData data = JsonUtility.FromJson<UserData>(json);
                 GameManager.Instance.usuariId = data._id;
                 GameManager.Instance.nomUsuari = data.nomUsuari;
 
 
-                SceneManager.LoadScene("LobbyScene");
+                SceneManager.LoadScene("MenuScene");
             }, 
             (error) => {
                 textMissatge.text = "Error: " + error;
