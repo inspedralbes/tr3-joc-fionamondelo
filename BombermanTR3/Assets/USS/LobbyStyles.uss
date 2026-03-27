@@ -68,12 +68,13 @@
     color: rgb(220, 220, 220);
     font-size: 15px;
     padding: 5px 10px;
+
 }
 
 /* Codi sala */
 #TextCodiSala {
     font-size: 22px;
-    color: rgb(180, 180, 200);
+    color: rgb(8, 8, 8);
     -unity-font-style: bold;
     letter-spacing: 5px;
     margin-top: 10px;
