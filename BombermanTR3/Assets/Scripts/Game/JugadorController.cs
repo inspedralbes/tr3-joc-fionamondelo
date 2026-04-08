@@ -5,7 +5,12 @@ public class JugadorController : MonoBehaviour
 
     public float velocitat = 5f;
     public bool esMeu = true;
+    
+    // Prefab de la bomba para arrastrar desde Unity
+    public GameObject bombaPrefab;
+
     private Rigidbody2D rb;
+
     private Animator anim;
     private Vector2 moviment;
     private Vector2 ultimaDireccio;
@@ -51,6 +56,29 @@ public class JugadorController : MonoBehaviour
             anim.SetFloat("MoveY", ultimaDireccio.y);
             
             rb.linearVelocity = Vector2.zero;
+        }
+
+        // 4. Poner bomba al pulsar Espacio
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            PosaBomba();
+        }
+    }
+
+    private void PosaBomba()
+    {
+        if (bombaPrefab != null)
+        {
+            // Redondegem la posicio i fixem Z=0 per a que sigui visible en 2D
+            Vector3 posicioBomba = new Vector3(
+                Mathf.RoundToInt(transform.position.x),
+                Mathf.RoundToInt(transform.position.y),
+                0f
+            );
+
+            // Instanciem la bomba
+            Instantiate(bombaPrefab, posicioBomba, Quaternion.identity);
+            Debug.Log("Bomba instanciada en: " + posicioBomba);
         }
     }
 
