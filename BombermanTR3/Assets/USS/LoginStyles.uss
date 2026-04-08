@@ -1,0 +1,99 @@
+/* Fons principal */
+#Contenidor {
+    width: 100%;
+    height: 100%;
+    background-color: rgb(18, 18, 19);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+/* Panel central */
+#PanellLogin {
+    background-color: rgb(28, 28, 45);
+    border-radius: 12px;
+    border-width: 2px;
+    border-color: rgb(255, 200, 50);
+    padding: 40px 50px;
+    align-items: center;
+    min-width: 380px;
+}
+
+/* Títol */
+#Titol {
+    font-size: 36px;
+    color: rgb(255, 200, 50);
+    -unity-font-style: bold;
+    letter-spacing: 4px;
+    margin-bottom: 30px;
+    -unity-text-align: middle-center;
+}
+
+/* Inputs */
+#InputUsuari, #InputContrasenya {
+    width: 300px;
+    height: 44px;
+    background-color: rgb(20, 20, 35);
+    border-color: rgb(70, 70, 110);
+    border-width: 1px;
+    border-radius: 8px;
+    color: rgb(253, 253, 255);
+    font-size: 14px;
+    padding: 5px 12px;
+    margin-bottom: 12px;
+}
+
+#InputUsuari:focus, #InputContrasenya:focus {
+    border-color: rgb(255, 200, 50);
+    border-width: 2px;
+}
+
+/* Botons */
+#BotoLogin {
+    width: 300px;
+    height: 44px;
+    background-color: rgb(245, 204, 122);
+    color: rgb(18, 18, 30);
+    border-radius: 8px;
+    border-width: 0;
+    font-size: 16px;
+    -unity-font-style: bold;
+    letter-spacing: 2px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+#BotoLogin:hover {
+    background-color: rgb(255, 200, 60);
+}
+
+#BotoLogin:active {
+    background-color: rgb(220, 160, 20);
+}
+
+#BotoRegistre {
+    width: 300px;
+    height: 44px;
+    background-color: transparent;
+    color: rgb(180, 180, 220);
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: rgb(80, 80, 120);
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+#BotoRegistre:hover {
+    border-color: rgb(255, 200, 50);
+    color: rgb(255, 200, 50);
+}
+
+/* Missatge */
+#TextMissatge {
+    font-size: 13px;
+    color: rgb(200, 80, 80);
+    -unity-font-style: bold;
+    margin-top: 12px;
+    -unity-text-align: middle-center;
+    min-height: 20px;
+}

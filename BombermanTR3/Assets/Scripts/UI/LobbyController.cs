@@ -22,16 +22,16 @@ public class LobbyController : MonoBehaviour
         botoCrearPartida = root.Q<Button>("BotoCrearPartida");
         botoUnirse = root.Q<Button>("BotoUnirse");
         botoIniciar = root.Q<Button>("BotoIniciar");
-        botoIniciar.style.display = DisplayStyle.None;
-        botoIniciar.clicked += OnIniciar;
         inputCodiSala = root.Q<TextField>("InputCodiSala");
         textCodiSala = root.Q<Label>("TextCodiSala");
         textEstat = root.Q<Label>("TextEstat");
         textError = root.Q<Label>("TextError");
 
+        botoIniciar.style.display = DisplayStyle.None;
+        botoIniciar.clicked += OnIniciar;
+
         textCodiSala.style.display = DisplayStyle.None;
         textEstat.style.display = DisplayStyle.None;
-        textError.style.display = DisplayStyle.None;
 
         botoCrearPartida.clicked += OnCrearPartida;
         botoUnirse.clicked += OnUnirse;

@@ -22,15 +22,19 @@ async function unirsePartida(repo, codiSala, usuariId) {
     const partida = await repo.findByCodiSala(codiSala);
 
     if (!partida) {
-        throw new Error('No existeix cap partida amb aquest codi');
+        throw new Error('No s\'ha trobat cap partida amb el codi: ' + codiSala);
     }
 
     if (partida.estat !== 'esperant') {
-        throw new Error('No et pots unir si la partida està en espera');
+        throw new Error('La partida ja ha començat o ha finalitzat');
     }
 
-    if (partida.jugadors.length >= 1) {
-        throw new Error('Màxim de jugadors )');
+    if (partida.jugadors.length >= 2) {
+        throw new Error('La sala està plena (màxim 2 jugadors)');
+    }
+
+    if (partida.jugadors.includes(usuariId)) {
+        throw new Error('L\'usuari ja és a la partida');
     }
 
     const nousJugadors = [...partida.jugadors, usuariId];
@@ -40,11 +44,12 @@ async function unirsePartida(repo, codiSala, usuariId) {
     });
 }
 
+
 async function finalitzarPartida(repo, codiSala, guanyadorId) {
     const partida = await repo.findByCodiSala(codiSala);
 
     if (!partida) {
-        throw new Error('No existeix cap partida amb aquest codi');
+        throw new Error('No s\'ha trobat cap partida amb el codi: ' + codiSala);
     }
 
     return await repo.update(partida._id || partida.id, {
@@ -53,12 +58,11 @@ async function finalitzarPartida(repo, codiSala, guanyadorId) {
     });
 }
 
-// Obté la informació d'una partida pel seu codi
 async function getPartida(repo, codiSala) {
     const partida = await repo.findByCodiSala(codiSala);
 
     if (!partida) {
-        throw new Error('No trobada la partida');
+        throw new Error('No s\'ha trobat cap partida amb el codi: ' + codiSala);
     }
 
     return partida;

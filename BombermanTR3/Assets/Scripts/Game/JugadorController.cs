@@ -2,33 +2,69 @@ using UnityEngine;
 
 public class JugadorController : MonoBehaviour
 {
+
     public float velocitat = 5f;
     public bool esMeu = true;
-
     private Rigidbody2D rb;
     private Animator anim;
+    private Vector2 moviment;
+    private Vector2 ultimaDireccio;
 
     private void Start()
     {
+
         rb = GetComponent<Rigidbody2D>();
-        rb.gravityScale = 0f;
         anim = GetComponent<Animator>();
+
+        rb.gravityScale = 0f;
+     
+        rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+
+        ultimaDireccio = Vector2.down;
     }
 
     private void Update()
     {
-        if (esMeu)
+    
+        if (!esMeu) return;
+
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
+        moviment = new Vector2(h, v);
+
+
+        bool isMoving = moviment.magnitude > 0.01f;
+
+        anim.SetBool("isMoving", isMoving);
+
+        if (isMoving)
         {
-            float h = Input.GetAxisRaw("Horizontal");
-            float v = Input.GetAxisRaw("Vertical");
 
-            rb.linearVelocity = new Vector2(h * velocitat, v * velocitat);
+            ultimaDireccio = moviment;
+            anim.SetFloat("MoveX", moviment.x);
+            anim.SetFloat("MoveY", moviment.y);
+        }
+        else
+        {
+            anim.SetFloat("MoveX", ultimaDireccio.x);
+            anim.SetFloat("MoveY", ultimaDireccio.y);
+            
+            rb.linearVelocity = Vector2.zero;
+        }
+    }
 
-            // Direccions: avall=0, amunt=1, dreta=2, esquerra=3
-            if (v < 0) anim.SetInteger("direccio", 0);
-            else if (v > 0) anim.SetInteger("direccio", 1);
-            else if (h > 0) anim.SetInteger("direccio", 2);
-            else if (h < 0) anim.SetInteger("direccio", 3);
+    private void FixedUpdate()
+    {
+        if (!esMeu) return;
+
+        if (moviment.magnitude > 0.01f)
+        {
+            Vector2 direccionNormalizada = moviment.normalized;
+            
+            Vector2 nuevaPos = rb.position + direccionNormalizada * velocitat * Time.fixedDeltaTime;
+            
+            rb.MovePosition(nuevaPos);
         }
     }
 

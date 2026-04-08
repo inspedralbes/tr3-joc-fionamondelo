@@ -1,0 +1,13 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/USS/LoginStyles.uss" />
+    <ui:VisualElement name="Contenidor" style="flex-grow: 1;">
+        <ui:VisualElement name="PanellLogin">
+            <ui:Label text="BOMBERMAN" name="Titol" />
+            <ui:TextField label="Usuari" name="InputUsuari" placeholder-text="Nom d'usuari..." />
+            <ui:TextField label="Contrasenya" name="InputContrasenya" placeholder-text="Contrasenya..." password="true" />
+            <ui:Button text="ENTRAR" name="BotoLogin" />
+            <ui:Button text="Registrar-se" name="BotoRegistre" />
+            <ui:Label text="" name="TextMissatge" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

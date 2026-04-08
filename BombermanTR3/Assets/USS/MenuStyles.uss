@@ -1,0 +1,80 @@
+/* Fons principal */
+#Contenidor {
+    width: 100%;
+    height: 100%;
+    background-color: rgb(19, 19, 20);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+/* Panel central */
+#PanellMenu {
+    background-color: rgb(28, 28, 45);
+    border-radius: 12px;
+    border-width: 2px;
+    border-color:  rgb(255, 200, 50);
+    padding: 40px 60px;
+    align-items: center;
+    min-width: 400px;
+}
+
+/* Títol */
+#Titol {
+    font-size: 36px;
+    color: rgb(255, 200, 50);
+    -unity-font-style: bold;
+    letter-spacing: 4px;
+    margin-bottom: 10px;
+    -unity-text-align: middle-center;
+}
+
+/* Benvinguda */
+#TextBenvinguda {
+    font-size: 16px;
+    color: rgb(160, 160, 200);
+    margin-bottom: 30px;
+    -unity-text-align: middle-center;
+}
+
+/* Botons */
+#BotoIndividual {
+    width: 300px;
+    height: 50px;
+    background-color: rgb(245, 204, 122);
+    color: rgb(16, 16, 17);
+    border-radius: 8px;
+    border-width: 0;
+    font-size: 17px;
+    -unity-font-style: bold;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+
+#BotoIndividual:hover {
+    background-color: rgb(255, 200, 60);
+}
+
+#BotoIndividual:active {
+    background-color: rgb(220, 160, 20);
+}
+
+#BotoMultijugador {
+    width: 300px;
+    height: 50px;
+    background-color: rgb(107, 176, 255);
+    color: rgb(6, 6, 7);
+    border-radius: 8px;
+    border-width: 0;
+    font-size: 17px;
+    -unity-font-style: bold;
+    letter-spacing: 2px;
+}
+
+#BotoMultijugador:hover {
+    background-color: rgb(70, 140, 220);
+}
+
+#BotoMultijugador:active {
+    background-color: rgb(40, 100, 180);
+}

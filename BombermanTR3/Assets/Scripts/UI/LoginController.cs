@@ -1,28 +1,34 @@
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
+using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 using System;
 
 public class LoginController : MonoBehaviour
 {
-    [Header("UI References")]
-    public TMP_InputField inputUsuari;
-    public TMP_InputField inputContrasenya;
-    public Button botoLogin;
-    public Button botoRegistre;
-    public TextMeshProUGUI textMissatge;
+    private TextField inputUsuari;
+    private TextField inputContrasenya;
+    private Button botoLogin;
+    private Button botoRegistre;
+    private Label textMissatge;
 
     private void Start()
     {
-        botoLogin.onClick.AddListener(OnLogin);
-        botoRegistre.onClick.AddListener(OnRegistre);
+        var root = GetComponent<UIDocument>().rootVisualElement;
+
+        inputUsuari = root.Q<TextField>("InputUsuari");
+        inputContrasenya = root.Q<TextField>("InputContrasenya");
+        botoLogin = root.Q<Button>("BotoLogin");
+        botoRegistre = root.Q<Button>("BotoRegistre");
+        textMissatge = root.Q<Label>("TextMissatge");
+
+        botoLogin.clicked += OnLogin;
+        botoRegistre.clicked += OnRegistre;
     }
 
     private void OnLogin()
     {
-        string nom = inputUsuari.text;
-        string pass = inputContrasenya.text;
+        string nom = inputUsuari.value;
+        string pass = inputContrasenya.value;
 
         if (string.IsNullOrEmpty(nom) || string.IsNullOrEmpty(pass))
         {
@@ -40,7 +46,6 @@ public class LoginController : MonoBehaviour
                 GameManager.Instance.usuariId = data._id;
                 GameManager.Instance.nomUsuari = data.nomUsuari;
 
-
                 SceneManager.LoadScene("MenuScene");
             }, 
             (error) => {
@@ -52,8 +57,8 @@ public class LoginController : MonoBehaviour
 
     private void OnRegistre()
     {
-        string nom = inputUsuari.text;
-        string pass = inputContrasenya.text;
+        string nom = inputUsuari.value;
+        string pass = inputContrasenya.value;
 
         if (string.IsNullOrEmpty(nom) || string.IsNullOrEmpty(pass))
         {
@@ -64,33 +69,30 @@ public class LoginController : MonoBehaviour
         textMissatge.text = "Registrant...";
         DesactivarBotons();
 
-        // Crida al registre de l'ApiManager
         StartCoroutine(ApiManager.Instance.RegistrarUsuari(nom, pass, 
             (json) => {
-                // Registre OK, fem login automàtic
                 OnLogin();
             }, 
             (error) => {
-    textMissatge.text = "Error: " + error;
-    Debug.LogError("Error registre: " + error);
-    ActivarBotons();
-}
+                textMissatge.text = "Error: " + error;
+                Debug.LogError("Error registre: " + error);
+                ActivarBotons();
+            }
         ));
     }
 
     private void ActivarBotons()
     {
-        botoLogin.interactable = true;
-        botoRegistre.interactable = true;
+        botoLogin.SetEnabled(true);
+        botoRegistre.SetEnabled(true);
     }
 
     private void DesactivarBotons()
     {
-        botoLogin.interactable = false;
-        botoRegistre.interactable = false;
+        botoLogin.SetEnabled(false);
+        botoRegistre.SetEnabled(false);
     }
 
-    // Classe auxiliar per al JSON
     [Serializable]
     private class UserData { public string _id; public string nomUsuari; }
 }

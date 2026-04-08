@@ -1,20 +1,25 @@
 using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
+using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
-    public TextMeshProUGUI textBenvinguda;
-    public Button botoIndividual;
-    public Button botoMultijugador;
+    private Label textBenvinguda;
+    private Button botoIndividual;
+    private Button botoMultijugador;
 
     void Start()
     {
+        var root = GetComponent<UIDocument>().rootVisualElement;
+
+        textBenvinguda = root.Q<Label>("TextBenvinguda");
+        botoIndividual = root.Q<Button>("BotoIndividual");
+        botoMultijugador = root.Q<Button>("BotoMultijugador");
+
         textBenvinguda.text = "Benvingut, " + GameManager.Instance.nomUsuari + "!";
 
-        botoIndividual.onClick.AddListener(CarregaEscenaJoc);
-        botoMultijugador.onClick.AddListener(CarregaEscenaLobby);
+        botoIndividual.clicked += CarregaEscenaJoc;
+        botoMultijugador.clicked += CarregaEscenaLobby;
     }
 
     void CarregaEscenaJoc()
