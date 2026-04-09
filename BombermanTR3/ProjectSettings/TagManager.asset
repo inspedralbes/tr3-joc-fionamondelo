@@ -5,15 +5,16 @@ TagManager:
   serializedVersion: 3
   tags:
   - Ladrillo
+  - Muro
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Obstacles
   - Water
   - UI
-  - 
-  - 
+  - Muro
+  - Ladrillo
   - 
   - 
   - 

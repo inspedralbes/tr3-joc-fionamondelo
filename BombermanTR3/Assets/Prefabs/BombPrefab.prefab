@@ -78,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: -1483665779731714255, guid: dcfd606d4bedac77db7013d2f690ca13, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -160,9 +160,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b694f827caa24d1194d63178839bdb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  focInici: {fileID: 3631158246990443925, guid: 307411bd1d0063ab1a14f7e8f88e4094, type: 3}
-  focMig: {fileID: 4473627159094255935, guid: 45c165f3576e4db83a77420db01ca0fe, type: 3}
-  focPunta: {fileID: 364802472157034761, guid: 2efb11c0ecb22f66aaa22b3ba249f1c0, type: 3}
-  capaObstacles:
+  inputKey: 304
+  bombPrefab: {fileID: 8253539442719894535}
+  bombFuseTime: 3
+  bombAmount: 1
+  explosionPrefab: {fileID: 6885782018701959895, guid: 11b438494ca5cad15971bd57abd51447, type: 3}
+  explosionLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 8
+  explosionDuration: 1
+  explosionRadius: 1
+  destructibleTiles: {fileID: 0}
+  destructiblePrefab: {fileID: 7214259283349235132, guid: 13c66b96c013ea612847bb12fd28b9e9, type: 3}

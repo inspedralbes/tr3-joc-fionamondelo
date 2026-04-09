@@ -58,30 +58,7 @@ public class JugadorController : MonoBehaviour
             rb.linearVelocity = Vector2.zero;
         }
 
-        // 4. Poner bomba al pulsar Espacio
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            PosaBomba();
-        }
     }
-
-    private void PosaBomba()
-    {
-        if (bombaPrefab != null)
-        {
-            // Redondegem la posicio i fixem Z=0 per a que sigui visible en 2D
-            Vector3 posicioBomba = new Vector3(
-                Mathf.RoundToInt(transform.position.x),
-                Mathf.RoundToInt(transform.position.y),
-                0f
-            );
-
-            // Instanciem la bomba
-            Instantiate(bombaPrefab, posicioBomba, Quaternion.identity);
-            Debug.Log("Bomba instanciada en: " + posicioBomba);
-        }
-    }
-
     private void FixedUpdate()
     {
         if (!esMeu) return;

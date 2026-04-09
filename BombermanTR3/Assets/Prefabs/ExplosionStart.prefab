@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5553282597909222827}
   - component: {fileID: 4102799859740605674}
   - component: {fileID: 7260172074614767799}
+  - component: {fileID: 3319232059966538811}
   m_Layer: 0
   m_Name: ExplosionStart
   m_TagString: Untagged
@@ -110,3 +111,26 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3319232059966538811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3631158246990443925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86919b0dcdb2bfb7f9dc55d6c471cb2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: -6199642483750245169, guid: 4f4af59da427cf1d1bb7e45ae9cf747c, type: 3}
+  - {fileID: -969876799, guid: 4f4af59da427cf1d1bb7e45ae9cf747c, type: 3}
+  - {fileID: 1992131401, guid: 4f4af59da427cf1d1bb7e45ae9cf747c, type: 3}
+  - {fileID: 606324477, guid: 4f4af59da427cf1d1bb7e45ae9cf747c, type: 3}
+  - {fileID: -942865546, guid: 4f4af59da427cf1d1bb7e45ae9cf747c, type: 3}
+  - {fileID: 1023142122, guid: 4f4af59da427cf1d1bb7e45ae9cf747c, type: 3}
+  - {fileID: -1892263168, guid: 4f4af59da427cf1d1bb7e45ae9cf747c, type: 3}
+  - {fileID: 2126362408, guid: 4f4af59da427cf1d1bb7e45ae9cf747c, type: 3}
+  animationSpeed: 0.1
+  loop: 1

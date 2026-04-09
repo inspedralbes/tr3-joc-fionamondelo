@@ -345,6 +345,30 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &613768881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 613768870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b694f827caa24d1194d63178839bdb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputKey: 32
+  bombPrefab: {fileID: 8253539442719894535, guid: 220aafa1dece8c0319347710be9ea3f8, type: 3}
+  bombFuseTime: 3
+  bombAmount: 1
+  explosionPrefab: {fileID: 6885782018701959895, guid: 11b438494ca5cad15971bd57abd51447, type: 3}
+  explosionLayerMask:
+    serializedVersion: 2
+    m_Bits: 8
+  explosionDuration: 1
+  explosionRadius: 1
+  destructibleTiles: {fileID: 1229838250}
+  destructiblePrefab: {fileID: 7214259283349235132, guid: 13c66b96c013ea612847bb12fd28b9e9, type: 3}
 --- !u!1 &714947328
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,9 +383,9 @@ GameObject:
   - component: {fileID: 714947334}
   - component: {fileID: 714947333}
   - component: {fileID: 714947332}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TilemapParedes
-  m_TagString: Untagged
+  m_TagString: Muro
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1483,7 +1507,7 @@ GameObject:
   - component: {fileID: 1229838253}
   - component: {fileID: 1229838252}
   - component: {fileID: 1229838251}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TilemapDestructibles
   m_TagString: Ladrillo
   m_Icon: {fileID: 0}
@@ -3958,6 +3982,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 231601945431788373, guid: 32ed004c6210d869c82e11caa2447940, type: 3}
       insertIndex: -1
       addedObject: {fileID: 613768876}
+    - targetCorrespondingSourceObject: {fileID: 231601945431788373, guid: 32ed004c6210d869c82e11caa2447940, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 613768881}
   m_SourcePrefab: {fileID: 100100000, guid: 32ed004c6210d869c82e11caa2447940, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
