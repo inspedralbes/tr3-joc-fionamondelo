@@ -35,29 +35,39 @@ public class BombController : MonoBehaviour
 
     private IEnumerator PlaceBomb()
     {
+        // 1. Calculamos la posición exacta del centro de la celda actual
         Vector2 position = transform.position;
-        position.x = Mathf.Round(position.x);
-        position.y = Mathf.Round(position.y);
+        position.x = Mathf.Floor(position.x) + 0.5f;
+        position.y = Mathf.Floor(position.y) + 0.5f;
 
-        GameObject bomb = Instantiate(bombPrefab, position, Quaternion.identity);
+        // 2. Guardamos esta posición para la explosión posterior (posició fixa)
         Vector2 bombPosition = position;
+
+        // 3. Instanciamos la bomba en esa celda
+        GameObject bomb = Instantiate(bombPrefab, bombPosition, Quaternion.identity);
         bombsRemaining--;
 
         yield return new WaitForSeconds(bombFuseTime);
 
+        // 4. La explosión ocurre exactamente en el centro de la celda donde se soltó
         Explosion explosion = Instantiate(explosionPrefab, bombPosition, Quaternion.identity);
         explosion.SetActiveRenderer(explosion.start);
         explosion.DestroyAfter(explosionDuration);
 
+        // Disparamos la explosión en cruz
         Explode(bombPosition, Vector2.up, explosionRadius);
         Explode(bombPosition, Vector2.down, explosionRadius);
         Explode(bombPosition, Vector2.left, explosionRadius);
         Explode(bombPosition, Vector2.right, explosionRadius);
 
-        Destroy(bomb);
+        if (bomb != null) {
+            Destroy(bomb);
+        }
+        
         bombsRemaining++;
-        Debug.Log("Jugador posicio: " + transform.position);
-        Debug.Log("Bomba posicio inicial: " + bombPosition);
+        
+        Debug.Log("Bomba soltada en: " + bombPosition);
+        Debug.Log("Jugador ahora en: " + transform.position);
     }
 
     private void Explode(Vector2 position, Vector2 direction, int length)

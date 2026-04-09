@@ -3897,12 +3897,20 @@ PrefabInstance:
       value: Jugador
       objectReference: {fileID: 0}
     - target: {fileID: 1587450466532868802, guid: 32ed004c6210d869c82e11caa2447940, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.96684045
+      objectReference: {fileID: 0}
+    - target: {fileID: 1587450466532868802, guid: 32ed004c6210d869c82e11caa2447940, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.8254299
+      objectReference: {fileID: 0}
+    - target: {fileID: 1587450466532868802, guid: 32ed004c6210d869c82e11caa2447940, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.12
+      value: 0.1033
       objectReference: {fileID: 0}
     - target: {fileID: 1587450466532868802, guid: 32ed004c6210d869c82e11caa2447940, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10
+      value: 10.1309
       objectReference: {fileID: 0}
     - target: {fileID: 1587450466532868802, guid: 32ed004c6210d869c82e11caa2447940, type: 3}
       propertyPath: m_LocalPosition.z
