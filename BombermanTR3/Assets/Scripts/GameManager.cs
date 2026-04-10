@@ -11,15 +11,14 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        
-        if (Instance == null)
-        {
+        if (Instance != null) {
+            DestroyImmediate(gameObject);
+        } else {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+    }
+    public void CheckWinState()
+    {
+        
     }
 }
