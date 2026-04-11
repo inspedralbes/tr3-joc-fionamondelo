@@ -127,9 +127,9 @@ TextureImporter:
         x: 0
         y: 72
         width: 16
-        height: 24
-      alignment: 9
-      pivot: {x: 0.4996019, y: 0.41732946}
+        height: 22
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -146,12 +146,12 @@ TextureImporter:
       name: PlayerWhiteWalk_1
       rect:
         serializedVersion: 2
-        x: 16
-        y: 72
+        x: 0
+        y: 0
         width: 16
-        height: 24
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        height: 48
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -168,12 +168,12 @@ TextureImporter:
       name: PlayerWhiteWalk_2
       rect:
         serializedVersion: 2
-        x: 32
-        y: 72
-        width: 16
-        height: 24
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 16
+        y: 48
+        width: 15
+        height: 47
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -190,12 +190,12 @@ TextureImporter:
       name: PlayerWhiteWalk_3
       rect:
         serializedVersion: 2
-        x: 48
-        y: 72
-        width: 16
-        height: 24
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        x: 32
+        y: 48
+        width: 15
+        height: 46
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -212,12 +212,12 @@ TextureImporter:
       name: PlayerWhiteWalk_4
       rect:
         serializedVersion: 2
-        x: 0
-        y: 48
-        width: 16
-        height: 24
-      alignment: 9
-      pivot: {x: 0.51690394, y: 0.38313404}
+        x: 32
+        y: 0
+        width: 32
+        height: 48
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -234,12 +234,12 @@ TextureImporter:
       name: PlayerWhiteWalk_5
       rect:
         serializedVersion: 2
-        x: 16
+        x: 48
         y: 48
-        width: 16
-        height: 24
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 15
+        height: 47
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -256,12 +256,12 @@ TextureImporter:
       name: PlayerWhiteWalk_6
       rect:
         serializedVersion: 2
-        x: 32
-        y: 48
-        width: 16
-        height: 24
-      alignment: 9
-      pivot: {x: 0.50155616, y: 0.3908318}
+        x: 16
+        y: 24
+        width: 15
+        height: 23
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -278,12 +278,12 @@ TextureImporter:
       name: PlayerWhiteWalk_7
       rect:
         serializedVersion: 2
-        x: 48
-        y: 48
+        x: 16
+        y: 0
         width: 16
-        height: 24
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        height: 23
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -292,182 +292,6 @@ TextureImporter:
       bones: []
       spriteID: 49640932f246fb242a2a2ac11303c6ba
       internalID: -1436366696
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerWhiteWalk_8
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 24
-        width: 16
-        height: 24
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e27696a0054ee43b9a1f6fabe33b1d07
-      internalID: 271533829
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerWhiteWalk_9
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 24
-        width: 16
-        height: 24
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d1af0c13114f865fcaa2c18f29e39a50
-      internalID: 305093766
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerWhiteWalk_10
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 24
-        width: 16
-        height: 24
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 82c3f83343e85f18caf97a8948f76b4d
-      internalID: -745008732
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerWhiteWalk_11
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 24
-        width: 16
-        height: 24
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 647729e9e8ecb33babd75c7199a68e07
-      internalID: 1442198251
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerWhiteWalk_12
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 16
-        height: 24
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 58b0dcd7c05ffe016827bfc22a9647f1
-      internalID: -1244794367
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerWhiteWalk_13
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 0
-        width: 16
-        height: 24
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ae8d0fa0d2b08d5629e2442914c71ce2
-      internalID: -619789156
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerWhiteWalk_14
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 0
-        width: 16
-        height: 24
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bf6ca72aaf03e570dbcbfd4b3ddf9d19
-      internalID: -466473761
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerWhiteWalk_15
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 0
-        width: 16
-        height: 24
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d0cb0e5eba99fc31bb3faba5a1aa3d40
-      internalID: 969557559
       vertices: []
       indices: 
       edges: []
@@ -488,20 +312,12 @@ TextureImporter:
     nameFileIdTable:
       PlayerWhiteWalk_0: -7679691229697230091
       PlayerWhiteWalk_1: -4838763863378666313
-      PlayerWhiteWalk_10: -745008732
-      PlayerWhiteWalk_11: 1442198251
-      PlayerWhiteWalk_12: -1244794367
-      PlayerWhiteWalk_13: -619789156
-      PlayerWhiteWalk_14: -466473761
-      PlayerWhiteWalk_15: 969557559
       PlayerWhiteWalk_2: -461426676
       PlayerWhiteWalk_3: 1606398341
       PlayerWhiteWalk_4: -1577183881
       PlayerWhiteWalk_5: 1540497056
       PlayerWhiteWalk_6: 1107764609
       PlayerWhiteWalk_7: -1436366696
-      PlayerWhiteWalk_8: 271533829
-      PlayerWhiteWalk_9: 305093766
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
