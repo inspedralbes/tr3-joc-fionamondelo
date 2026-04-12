@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4958758323929267289}
   - component: {fileID: 2109010567113931850}
   - component: {fileID: 2062710482524925432}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Start
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_Sprite: {fileID: -6199642483750245169, guid: 4f4af59da427cf1d1bb7e45ae9cf747c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 6407488548876054780}
   - component: {fileID: 1493137286708163978}
   - component: {fileID: 5249410828944363337}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Explosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -221,7 +221,7 @@ GameObject:
   - component: {fileID: 8423456622234029153}
   - component: {fileID: 5332865478738864998}
   - component: {fileID: 3028354989068478772}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -286,7 +286,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_Sprite: {fileID: 8454112987747502049, guid: 10427f9dbf63fc63ca542bb7ddf9cd0c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -334,7 +334,7 @@ GameObject:
   - component: {fileID: 6046090838313959613}
   - component: {fileID: 8285151804995948990}
   - component: {fileID: 1567035362027841337}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Middle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -399,7 +399,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_Sprite: {fileID: -8745954093093991765, guid: bec7b60a3fefc5fe19d5e260e7808222, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
