@@ -49,6 +49,12 @@ public class BombController : MonoBehaviour
         position.y = Mathf.Floor(position.y) + 0.5f;
 
         GameObject bomb = Instantiate(bombPrefab, position, Quaternion.identity);
+        
+        if (WebSocketManager.Instance != null)
+        {
+            WebSocketManager.Instance.SendMessage("posar_bomba", "{\"x\":" + position.x + ",\"y\":" + position.y + "}");
+        }
+
         bombsRemaining--;
 
         yield return new WaitForSeconds(bombFuseTime);
