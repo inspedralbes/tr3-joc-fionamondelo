@@ -2113,11 +2113,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7a6f482323b9206ca3312615e8b2550, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  networkSendRate: 0.033
   speed: 5
   inputUp: 273
   inputDown: 274
-  inputLeft: 275
-  inputRight: 276
+  inputLeft: 276
+  inputRight: 275
   spriteRendererUp: {fileID: 1858455392}
   spriteRendererDown: {fileID: 1076114789}
   spriteRendererLeft: {fileID: 622757147}
@@ -2586,6 +2587,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7a6f482323b9206ca3312615e8b2550, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  networkSendRate: 0.033
   speed: 5
   inputUp: 119
   inputDown: 115

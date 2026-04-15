@@ -9,7 +9,7 @@ using System.Text;
 public class WebSocketManager : MonoBehaviour
 {
     public static WebSocketManager Instance { get; private set; }
-    
+
     private ClientWebSocket ws;
     private CancellationTokenSource cts;
     private Queue<Action> mainThreadQueue = new Queue<Action>();
@@ -67,9 +67,12 @@ public class WebSocketManager : MonoBehaviour
         {
             // ajuntem el tipus i el JSON manualment
             string fullJson = jsonData;
-            if (string.IsNullOrEmpty(jsonData) || jsonData == "{}") {
+            if (string.IsNullOrEmpty(jsonData) || jsonData == "{}")
+            {
                 fullJson = "{\"tipus\":\"" + tipus + "\"}";
-            } else {
+            }
+            else
+            {
                 // Inserim el tipus al principi del JSON existent
                 fullJson = jsonData.Replace("{", "{\"tipus\":\"" + tipus + "\",");
             }
@@ -113,7 +116,8 @@ public class WebSocketManager : MonoBehaviour
         }
         catch (Exception e)
         {
-            if (ws.State != WebSocketState.Aborted) {
+            if (ws.State != WebSocketState.Aborted)
+            {
                 Debug.LogError("Error en la recepció del WebSocket: " + e.Message);
             }
         }
@@ -124,8 +128,8 @@ public class WebSocketManager : MonoBehaviour
         try
         {
             BaseMessage msg = JsonUtility.FromJson<BaseMessage>(json);
-            
-            // Encoem l'acció per executar-la en el fil principal
+            Debug.Log(">>> WS RAW REBUT: " + json); // ← AÑADIR
+            Debug.Log(">>> Subscribers a OnMissatgeRebut: " + (OnMissatgeRebut != null ? OnMissatgeRebut.GetInvocationList().Length.ToString() : "0")); // ← AÑADIR
             mainThreadQueue.Enqueue(() => OnMissatgeRebut?.Invoke(msg.tipus, json));
         }
         catch (Exception e)

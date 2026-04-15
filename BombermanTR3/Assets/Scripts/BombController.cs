@@ -1,38 +1,82 @@
-using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Tilemaps;
-
 
 public class BombController : MonoBehaviour
 {
-
-    [Header("Bomba")]
+    [Header("Bomb")]
     public GameObject bombPrefab;
     public KeyCode inputKey = KeyCode.Space;
     public float bombFuseTime = 3f;
     public int bombAmount = 1;
     private int bombsRemaining;
 
-    [Header("Explosion")]
+    [Header("Explosion (Se pasará a la bomba)")]
     public Explosion explosionPrefab;
-    public LayerMask explosionLayerMask; 
+    public LayerMask explosionLayerMask;
     public float explosionDuration = 1f;
     public int explosionRadius = 1;
 
-
-    [Header("Destructibles")]
+    [Header("Destructible (Se pasará a la bomba)")]
     public Tilemap destructibleTiles;
     public Destructible destructiblePrefab;
 
+    private MovementController movementController;
+
+    private void Awake()
+    {
+        movementController = GetComponent<MovementController>();
+    }
 
     private void OnEnable()
     {
         bombsRemaining = bombAmount;
+        
+        // El script se suscribe directamente a la red (igual que el movimiento)
+        if (WebSocketManager.Instance != null)
+        {
+            WebSocketManager.Instance.OnMissatgeRebut += ProcessarMissatgeXarxa;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (WebSocketManager.Instance != null)
+        {
+            WebSocketManager.Instance.OnMissatgeRebut -= ProcessarMissatgeXarxa;
+        }
+    }
+
+    private void ProcessarMissatgeXarxa(string tipus, string json)
+    {
+        // REPLICA DEL MOVIMIENTO: Si soy el jugador local, ignoro el mensaje (yo ya la puse con el teclado)
+        if (movementController != null && movementController.esMeu) return;
+
+        // Si soy el jugador remoto (el títere), pongo la bomba cuando lo dicta el servidor
+        if (tipus == "posar_bomba")
+        {
+            PositionalMessage msg = JsonUtility.FromJson<PositionalMessage>(json);
+            Vector2 pos = new Vector2(msg.x, msg.y);
+
+            // Crear la bomba
+            GameObject bombObj = Instantiate(bombPrefab, pos, Quaternion.identity);
+            Bomb bombScript = bombObj.GetComponent<Bomb>();
+            if (bombScript == null) bombScript = bombObj.AddComponent<Bomb>();
+             
+            bombScript.fuseTime = bombFuseTime;
+            bombScript.explosionPrefab = explosionPrefab;
+            bombScript.explosionLayerMask = explosionLayerMask;
+            bombScript.explosionDuration = explosionDuration;
+            bombScript.explosionRadius = explosionRadius;
+            bombScript.destructibleTiles = destructibleTiles;
+            bombScript.destructiblePrefab = destructiblePrefab;
+        }
     }
 
     private void Update()
     {
+        // Solo mi jugador local lee el teclado
+        if (movementController != null && !movementController.esMeu) return;
 
         if (bombsRemaining > 0 && Input.GetKeyDown(inputKey))
         {
@@ -43,76 +87,33 @@ public class BombController : MonoBehaviour
     private IEnumerator PlaceBomb()
     {
         Vector2 position = transform.position;
-
-        // Redondear al centro de celda más cercano. Sin eso la bomba no cae bien
         position.x = Mathf.Floor(position.x) + 0.5f;
         position.y = Mathf.Floor(position.y) + 0.5f;
 
-        GameObject bomb = Instantiate(bombPrefab, position, Quaternion.identity);
-        
-        if (WebSocketManager.Instance != null)
-        {
-            WebSocketManager.Instance.SendMessage("posar_bomba", "{\"x\":" + position.x + ",\"y\":" + position.y + "}");
-        }
+        // 1. Crear bomba local
+        GameObject bombObj = Instantiate(bombPrefab, position, Quaternion.identity);
+        Bomb bombScript = bombObj.GetComponent<Bomb>();
+        if (bombScript == null) bombScript = bombObj.AddComponent<Bomb>();
+         
+        bombScript.fuseTime = bombFuseTime;
+        bombScript.explosionPrefab = explosionPrefab;
+        bombScript.explosionLayerMask = explosionLayerMask;
+        bombScript.explosionDuration = explosionDuration;
+        bombScript.explosionRadius = explosionRadius;
+        bombScript.destructibleTiles = destructibleTiles;
+        bombScript.destructiblePrefab = destructiblePrefab;
 
         bombsRemaining--;
 
+        // 2. Enviar por red EXACTAMENTE con el formato de string que funciona en tu servidor
+        if (WebSocketManager.Instance != null) {
+            string msgJson = "{\"x\":" + position.x.ToString(System.Globalization.CultureInfo.InvariantCulture) +
+                             ",\"y\":" + position.y.ToString(System.Globalization.CultureInfo.InvariantCulture) + "}";
+            WebSocketManager.Instance.SendMessage("posar_bomba", msgJson);
+        }
+
         yield return new WaitForSeconds(bombFuseTime);
-
-        position = bomb.transform.position;
-        position.x = Mathf.Floor(position.x) + 0.5f;
-        position.y = Mathf.Floor(position.y) + 0.5f;
-
-        Explosion explosion = Instantiate(explosionPrefab, position, Quaternion.identity);
-        explosion.SetActiveRenderer(explosion.start);
-        explosion.DestroyAfter(explosionDuration);
-        
-
-        Explode(position, Vector2.up, explosionRadius);
-        Explode(position, Vector2.down, explosionRadius);
-        Explode(position, Vector2.left, explosionRadius);
-        Explode(position, Vector2.right, explosionRadius);
-
-        Destroy(bomb);
         bombsRemaining++;
-
-    }
-    private void Explode(Vector2 position, Vector2 direction, int lenth)
-    {
-        if(lenth <= 0)
-        {
-            return;
-        }
-
-        position += direction;
-        position.x = Mathf.Floor(position.x) + 0.5f;
-        position.y = Mathf.Floor(position.y) + 0.5f;
-        
-        if(Physics2D.OverlapBox(position, Vector2.one/2f, 0f, explosionLayerMask))
-        {
-            ClearDestructible(position);
-            return;
-        }
-
-        Explosion explosion = Instantiate(explosionPrefab, position, Quaternion.identity);
-        explosion.SetActiveRenderer(lenth > 1 ? explosion.middle : explosion.end);
-        explosion.SetDirection(direction);
-        explosion.DestroyAfter(explosionDuration);
-
-        Explode(position, direction, lenth -1);
-
-
-    }
-    private void ClearDestructible(Vector2 position)
-    {
-        Vector3Int cell = destructibleTiles.WorldToCell(position);
-        TileBase tile = destructibleTiles.GetTile(cell);
-
-        if(tile != null)
-        {
-            Instantiate(destructiblePrefab, position, Quaternion.identity);
-            destructibleTiles.SetTile(cell, null);
-        }
     }
 
     public void AddBomb()
@@ -127,5 +128,12 @@ public class BombController : MonoBehaviour
         {
             other.isTrigger = false;
         }
+    }
+
+    [System.Serializable]
+    public class PositionalMessage
+    {
+        public float x;
+        public float y;
     }
 }

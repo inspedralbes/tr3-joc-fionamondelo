@@ -21,23 +21,19 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
     }
+
     public void CheckWinState()
     {
         int aliveCount = 0;
-
         foreach (GameObject player in players)
         {
-            if(player.activeSelf){
-                aliveCount++;
-            }
+            if(player.activeSelf) aliveCount++;
         }
-        if(aliveCount <= 1)
-        {
-            Invoke(nameof(NewRound), 3f);
-        }
+        if(aliveCount <= 1) Invoke(nameof(NewRound), 3f);
     }
 
     private void NewRound()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);    }
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 }
