@@ -1,10 +1,15 @@
 using UnityEngine;
-using System.Collections; 
+using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 
-public class MovementController: MonoBehaviour  
+public class MovementController : MonoBehaviour
 {
-    public new Rigidbody2D rigidbody {get; private set;}
+    private float lastSendTime;
+    public float networkSendRate = 0.033f;
+    private Vector2 targetPosition;
+
+    public new Rigidbody2D rigidbody { get; private set; }
     private Vector2 direction = Vector2.zero;
     public float speed = 5f;
 
@@ -25,7 +30,7 @@ public class MovementController: MonoBehaviour
     private void Start()
     {
         Debug.Log("MovementController: " + gameObject.name + " iniciat. esMeu = " + esMeu);
-        
+
         if (WebSocketManager.Instance != null)
         {
             WebSocketManager.Instance.OnMissatgeRebut += OnMissatgeRebut;
@@ -36,56 +41,68 @@ public class MovementController: MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody2D>();
         activeSpriteRenderer = spriteRendererDown;
+        targetPosition = rigidbody.position;
     }
 
-    private void Update()
-    {
-        if (!esMeu) return;
+    // MovementController.cs - elimina el bloque "else" del Update() para el remoto
+private void Update()
+{
+    if (!esMeu) return; // ← El remoto no hace nada en Update
 
-        Vector2 lastDirection = direction;
+    Vector2 lastDirection = direction;
 
-        if (Input.GetKey(inputUp)) {
-            SetDirection(Vector2.up, spriteRendererUp);
-        } else if (Input.GetKey(inputDown)) {
-            SetDirection(Vector2.down, spriteRendererDown);
-        } else if (Input.GetKey(inputLeft)) {
-            SetDirection(Vector2.left, spriteRendererLeft);
-        } else if (Input.GetKey(inputRight)) {
-            SetDirection(Vector2.right, spriteRendererRight);
-        } else {
-            SetDirection(Vector2.zero, activeSpriteRenderer);
-        }
-
-        // Si la direcció ha canviat i ara estem parats, enviem un missatge final per aturar el personatge remot
-        if (lastDirection != Vector2.zero && direction == Vector2.zero)
-        {
-            EnviarPosicio();
-        }
+    if (Input.GetKey(inputUp)) {
+        SetDirection(Vector2.up, spriteRendererUp);
+    } else if (Input.GetKey(inputDown)) {
+        SetDirection(Vector2.down, spriteRendererDown);
+    } else if (Input.GetKey(inputLeft)) {
+        SetDirection(Vector2.left, spriteRendererLeft);
+    } else if (Input.GetKey(inputRight)) {
+        SetDirection(Vector2.right, spriteRendererRight);
+    } else {
+        SetDirection(Vector2.zero, activeSpriteRenderer);
     }
 
-    private void FixedUpdate()
+    if (lastDirection != Vector2.zero && direction == Vector2.zero)
     {
-        if (!esMeu) return;
+        EnviarPosicio();
+    }
+}
 
+private void FixedUpdate()
+{
+    if (esMeu)
+    {
+        // Lógica local - igual que antes
         Vector2 position = rigidbody.position;
         Vector2 translation = direction * speed * Time.fixedDeltaTime;
-
         rigidbody.MovePosition(position + translation);
 
-        if (direction != Vector2.zero)
+        if (direction != Vector2.zero && Time.time - lastSendTime > networkSendRate)
         {
             EnviarPosicio();
+            lastSendTime = Time.time;
         }
     }
-
+    else
+    {
+        // Lógica remota - interpolación en FixedUpdate con MovePosition
+        Vector2 newPos = Vector2.MoveTowards(
+            rigidbody.position,
+            targetPosition,
+            speed * 1.2f * Time.fixedDeltaTime
+        );
+        rigidbody.MovePosition(newPos);
+    }
+}
     private void EnviarPosicio()
     {
         if (WebSocketManager.Instance != null)
         {
-            string msg = "{\"x\":" + rigidbody.position.x + 
-                         ",\"y\":" + rigidbody.position.y + 
-                         ",\"dx\":" + direction.x + 
-                         ",\"dy\":" + direction.y + "}";
+            string msg = "{\"x\":" + rigidbody.position.x.ToString(CultureInfo.InvariantCulture) +
+                         ",\"y\":" + rigidbody.position.y.ToString(CultureInfo.InvariantCulture) +
+                         ",\"dx\":" + direction.x.ToString(CultureInfo.InvariantCulture) +
+                         ",\"dy\":" + direction.y.ToString(CultureInfo.InvariantCulture) + "}";
             WebSocketManager.Instance.SendMessage("moure", msg);
         }
     }
@@ -96,14 +113,19 @@ public class MovementController: MonoBehaviour
 
         if (tipus == "moure")
         {
-            PosicioData data = JsonUtility.FromJson<PosicioData>(json);
-            rigidbody.MovePosition(new Vector2(data.x, data.y));
-            
-            // Actualitzem la direcció per a les animacions
-            Vector2 novaDireccio = new Vector2(data.dx, data.dy);
-            if (novaDireccio != direction)
+            try
             {
+                PosicioData data = JsonUtility.FromJson<PosicioData>(json);
+                // En lugar de moverlo aquí, guardamos el destino
+                targetPosition = new Vector2(data.x, data.y);
+
+                // Actualitzem la direcció per a les animacions
+                Vector2 novaDireccio = new Vector2(data.dx, data.dy);
                 ActualitzarAnimacioRemota(novaDireccio);
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError("Error processant moviment remot: " + e.Message + " JSON: " + json);
             }
         }
     }
@@ -135,8 +157,8 @@ public class MovementController: MonoBehaviour
     private void SetDirection(Vector2 newDirection, AnimatedSpriteRenderer spriteRenderer)
     {
         direction = newDirection;
-        
-        spriteRendererUp.enabled = spriteRenderer == spriteRendererUp; 
+
+        spriteRendererUp.enabled = spriteRenderer == spriteRendererUp;
         spriteRendererDown.enabled = spriteRenderer == spriteRendererDown;
         spriteRendererLeft.enabled = spriteRenderer == spriteRendererLeft;
         spriteRendererRight.enabled = spriteRenderer == spriteRendererRight;
@@ -145,18 +167,19 @@ public class MovementController: MonoBehaviour
         activeSpriteRenderer.idle = direction == Vector2.zero;
     }
 
-     private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.gameObject.layer == LayerMask.NameToLayer("Explosion")){
+        if (other.gameObject.layer == LayerMask.NameToLayer("Explosion"))
+        {
             DeathSequence();
         }
     }
 
-        private void DeathSequence()
+    private void DeathSequence()
     {
         enabled = false;
         GetComponent<BombController>().enabled = false;
-        
+
         spriteRendererUp.enabled = false;
         spriteRendererDown.enabled = false;
         spriteRendererLeft.enabled = false;
@@ -171,7 +194,7 @@ public class MovementController: MonoBehaviour
         gameObject.SetActive(false);
         GameManager.Instance.CheckWinState();
     }
-    
+
 }
 
 [System.Serializable]

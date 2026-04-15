@@ -25,7 +25,7 @@ public class GameSceneController : MonoBehaviour
         if (GameManager.Instance != null)
         {
             Debug.Log("GameSceneController: GameManager trobat. esPrimary = " + GameManager.Instance.esPrimary);
-            
+
             MovementController m1 = player1.GetComponent<MovementController>();
             MovementController m2 = player2.GetComponent<MovementController>();
 
@@ -58,7 +58,7 @@ public class GameSceneController : MonoBehaviour
         if (tipus == "jugador_mort")
         {
             MortMessage msg = JsonUtility.FromJson<MortMessage>(json);
-            
+
             if (msg.jugadorId == "1")
             {
                 player1.SetActive(false);
@@ -71,7 +71,9 @@ public class GameSceneController : MonoBehaviour
         else if (tipus == "posar_bomba")
         {
             PosicioData data = JsonUtility.FromJson<PosicioData>(json);
-            Instantiate(bombPrefab, new Vector2(data.x, data.y), Quaternion.identity);
+            // Redondeamos para que la bomba aparezca en el centro de la celda
+            Vector2 bombPos = new Vector2(Mathf.Floor(data.x) + 0.5f, Mathf.Floor(data.y) + 0.5f);
+            Instantiate(bombPrefab, bombPos, Quaternion.identity);
         }
     }
 

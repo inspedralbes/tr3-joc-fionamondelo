@@ -12,7 +12,8 @@ wss.on('connection', function (ws) {
 
     ws.on('message', function (data) {
         try {
-            const missatge = JSON.parse(data);
+            const rawData = data.toString();
+            const missatge = JSON.parse(rawData);
 
             if (missatge.tipus === 'unir_sala') {
                 const codiSala = missatge.codiSala;
@@ -24,7 +25,8 @@ wss.on('connection', function (ws) {
                 sales.get(codiSala).add(ws);
                 ws.codiSala = codiSala;
 
-                console.log('Client unit a la sala: ' + codiSala);
+                const numClients = sales.get(codiSala).size;
+                console.log('Client unit a la sala: ' + codiSala + ' (total clients: ' + numClients + ')');
                 return;
             }
 
@@ -33,17 +35,27 @@ wss.on('connection', function (ws) {
 
                 if (tipusPermesos.includes(missatge.tipus)) {
                     const clientsEnSala = sales.get(ws.codiSala);
+                    let enviats = 0;
 
                     clientsEnSala.forEach(function (client) {
                         if (client !== ws && client.readyState === 1) {
                             client.send(JSON.stringify(missatge));
+                            enviats++;
                         }
                     });
+
+                    if (missatge.tipus !== 'moure') {
+                        console.log('Missatge [' + missatge.tipus + '] reenviat a ' + enviats + ' client(s) a sala ' + ws.codiSala);
+                    }
+                } else {
+                    console.log('Tipus de missatge no permès: ' + missatge.tipus);
                 }
+            } else {
+                console.log('Client sense sala envia missatge: ' + missatge.tipus);
             }
 
         } catch (error) {
-            console.error('Error processant el missatge:', error);
+            console.error('Error processant el missatge:', error, '| Raw data:', data.toString());
         }
     });
 
