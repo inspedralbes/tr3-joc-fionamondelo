@@ -19,7 +19,7 @@ class MongoPartidaRepository extends IRepository {
         return await Partida.findByIdAndDelete(id);
     }
     async findByCodiSala(codiSala) {
-        return await Partida.findOne({ codiSala: codiSala });
+        return await Partida.findOne({ codiSala: codiSala }).populate('jugadors').populate('guanyador');
     }
 }
 

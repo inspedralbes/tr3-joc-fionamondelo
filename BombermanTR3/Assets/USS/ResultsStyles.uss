@@ -1,0 +1,64 @@
+/* Fons principal exacto al del menú */
+.contenidor-fons {
+    width: 100%;
+    height: 100%;
+    background-color: rgb(19, 19, 20);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+/* Panel central con el borde dorado y más espacio (alejado) */
+.panell-central {
+    background-color: rgb(28, 28, 45);
+    border-radius: 20px;
+    border-width: 3px;
+    border-color: rgb(255, 200, 50);
+    padding: 60px 80px; /* Más padding interno */
+    align-items: center;
+    min-width: 550px;
+    margin: 20px;
+}
+
+/* Título superior */
+.titol-principal {
+    font-size: 32px;
+    color: rgb(255, 200, 50);
+    -unity-font-style: bold;
+    letter-spacing: 4px;
+    margin-bottom: 40px; /* Separación con el resto */
+}
+
+/* Estil per al nom del guanyador destacat */
+.guanyador-destacat {
+    font-size: 48px;
+    color: white;
+    -unity-font-style: bold;
+    margin-bottom: 20px;
+    -unity-text-align: middle-center;
+    letter-spacing: 2px;
+}
+
+.text-secundari {
+    font-size: 18px;
+    color: rgb(160, 160, 200);
+}
+
+/* Botón azul exacto al de Multijugador del menú */
+.boto-blau {
+    width: 320px;
+    height: 55px;
+    background-color: rgb(107, 176, 255);
+    color: rgb(6, 6, 7);
+    border-radius: 10px;
+    border-width: 0;
+    font-size: 18px;
+    -unity-font-style: bold;
+    letter-spacing: 2px;
+    margin-top: 20px;
+}
+
+.boto-blau:hover {
+    background-color: rgb(255, 200, 50);
+    scale: 1.05;
+}

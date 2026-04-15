@@ -5,24 +5,28 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public GameObject[] players;
+    [HideInInspector] public GameObject[] players;
 
     public string usuariId;
     public string nomUsuari;
     public string codiSala;
     public bool esPrimary;
 
-    [Header("Items Sincronizados")]
-    public GameObject[] spawnableItems; // Arrastra los prefabs de los items aquí en el Inspector
+    [Header("Configuració de Red")]
+    public GameObject bombPrefab;
+    public GameObject[] spawnableItems;
+
+    [Header("Escenes")]
+    public string nomEscenaResultats = "ResultsScene"; 
 
     private void Awake()
     {
-        if (Instance != null) {
-            DestroyImmediate(gameObject);
-        } else {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
+        if (Instance != null && Instance != this) {
+            Destroy(gameObject);
+            return;
+        } 
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
@@ -31,60 +35,134 @@ public class GameManager : MonoBehaviour
         {
             WebSocketManager.Instance.OnMissatgeRebut += HandleWebSocketMessage;
         }
-    }
-
-    private void HandleWebSocketMessage(string tipus, string json)
-    {
-        // Si recibimos el aviso del Host, creamos el item
-        if (tipus == "spawn_item")
-        {
-            Debug.Log("[RADAR ITEM] Mensaje recibido del Host: " + json);
-            Destructible.ItemSpawnMsg msg = JsonUtility.FromJson<Destructible.ItemSpawnMsg>(json);
-            SpawnRemoteItem(msg.x, msg.y, msg.itemIndex);
-        }
-    }
-
-    private void SpawnRemoteItem(float x, float y, int itemIndex)
-    {
-  
-        if (spawnableItems != null && spawnableItems.Length > 0)
-        {
-            if (itemIndex >= 0 && itemIndex < spawnableItems.Length)
-            {
-                Instantiate(spawnableItems[itemIndex], new Vector2(x, y), Quaternion.identity);
-                Debug.Log("[RADAR ITEM] ¡Item creado con éxito en la pantalla del rival!");
-            }
-            else
-            {
-                Debug.LogError($"[ERROR ITEM] El Host dice que cree el item {itemIndex}, pero tu GameManager solo tiene {spawnableItems.Length} items en la lista.");
-            }
-        }
-        else
-        {
-            Debug.LogError("[ERROR ITEM] La lista 'Spawnable Items' de tu GameManager está vacía en el Inspector. ¡Arrastra los prefabs de los items!");
-        }
-    }
-
-    public void CheckWinState()
-    {
-        int aliveCount = 0;
-        foreach (GameObject player in players)
-        {
-            if(player.activeSelf) aliveCount++;
-        }
-        if(aliveCount <= 1) Invoke(nameof(NewRound), 3f);
-    }
-
-    private void NewRound()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        EncontrarJugadoresEnEscena();
     }
 
     private void OnDestroy()
     {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
         if (WebSocketManager.Instance != null)
         {
             WebSocketManager.Instance.OnMissatgeRebut -= HandleWebSocketMessage;
         }
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        EncontrarJugadoresEnEscena();
+    }
+
+    public void EncontrarJugadoresEnEscena()
+    {
+        GameObject p1 = GameObject.Find("Player 1") ?? GameObject.Find("Player1");
+        GameObject p2 = GameObject.Find("Player 2") ?? GameObject.Find("Player2");
+
+        if (p1 != null && p2 != null)
+        {
+            players = new GameObject[] { p1, p2 };
+        }
+    }
+
+    private void HandleWebSocketMessage(string tipus, string json)
+    {
+        if (tipus == "spawn_item")
+        {
+            Destructible.ItemSpawnMsg msg = JsonUtility.FromJson<Destructible.ItemSpawnMsg>(json);
+            SpawnRemoteItem(msg.x, msg.y, msg.itemIndex);
+        }
+        else if (tipus == "posar_bomba")
+        {
+            BombController.PositionalMessage msg = JsonUtility.FromJson<BombController.PositionalMessage>(json);
+            CreateRemoteBomb(msg.x, msg.y);
+        }
+        else if (tipus == "jugador_mort")
+        {
+            // Si el mensaje es de muerte, apago al jugador que NO soy yo
+            foreach (GameObject player in players)
+            {
+                if (player != null)
+                {
+                    MovementController mc = player.GetComponent<MovementController>();
+                    if (mc != null && !mc.esMeu) 
+                    {
+                        player.SetActive(false);
+                    }
+                }
+            }
+            CheckWinState();
+        }
+    }
+
+    private void SpawnRemoteItem(float x, float y, int itemIndex) {
+        if (spawnableItems != null && itemIndex >= 0 && itemIndex < spawnableItems.Length) {
+            Instantiate(spawnableItems[itemIndex], new Vector2(x, y), Quaternion.identity);
+        }
+    }
+
+    private void CreateRemoteBomb(float x, float y) {
+        if (bombPrefab != null) {
+            GameObject bombObj = Instantiate(bombPrefab, new Vector3(x, y, 0), Quaternion.identity);
+            BombController localBC = null;
+            foreach (BombController b in FindObjectsByType<BombController>(FindObjectsSortMode.None)) {
+                if (b.GetComponent<MovementController>()?.esMeu == true) {
+                    localBC = b;
+                    break;
+                }
+            }
+            if (localBC != null) {
+                Bomb b = bombObj.GetComponent<Bomb>() ?? bombObj.AddComponent<Bomb>();
+                b.fuseTime = localBC.bombFuseTime;
+                b.explosionPrefab = localBC.explosionPrefab;
+                b.explosionLayerMask = localBC.explosionLayerMask;
+                b.explosionDuration = localBC.explosionDuration;
+                b.explosionRadius = localBC.explosionRadius;
+                b.destructibleTiles = localBC.destructibleTiles;
+                b.destructiblePrefab = localBC.destructiblePrefab;
+            }
+        }
+    }
+
+    // --- LÓGICA DE FIN DE PARTIDA ---
+    public void CheckWinState()
+    {
+        if (players == null || players.Length == 0) EncontrarJugadoresEnEscena();
+
+        int aliveCount = 0;
+        GameObject winner = null;
+
+        foreach (GameObject player in players)
+        {
+            if (player != null && player.activeSelf)
+            {
+                aliveCount++;
+                winner = player;
+            }
+        }
+
+        if (aliveCount <= 1)
+        {
+            if (winner != null)
+            {
+                MovementController mc = winner.GetComponent<MovementController>();
+                if (mc != null && mc.esMeu)
+                {
+                    Debug.Log("¡HE GANADO! Avisando a la API...");
+                    StartCoroutine(ApiManager.Instance.FinalitzarPartida(codiSala, usuariId, 
+                        (exit) => Debug.Log("Partida guardada: " + exit),
+                        (err) => Debug.LogError("Error API: " + err)
+                    ));
+                }
+            }
+
+            Invoke(nameof(LoadResultsScene), 2f);
+        }
+    }
+
+    private void LoadResultsScene()
+    {
+        players = null;
+        SceneManager.LoadScene(nomEscenaResultats);
     }
 }

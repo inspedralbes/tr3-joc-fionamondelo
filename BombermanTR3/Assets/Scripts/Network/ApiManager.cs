@@ -39,10 +39,10 @@ public class ApiManager : MonoBehaviour
     }
 
     public IEnumerator CrearPartida(Action<string> onSuccess, Action<string> onError)
-{
-    string url = BASE_URL + "/api/partides/crear";
-    yield return PostRequest(url, "{}", onSuccess, onError);
-}
+    {
+        string url = BASE_URL + "/api/partides/crear";
+        yield return PostRequest(url, "{}", onSuccess, onError);
+    }
 
     public IEnumerator UnirsePartida(string codiSala, string usuariId, Action<string> onSuccess, Action<string> onError)
     {
@@ -56,6 +56,12 @@ public class ApiManager : MonoBehaviour
         string url = BASE_URL + "/api/partides/finalitzar";
         EndGame data = new EndGame { codiSala = codiSala, guanyadorId = guanyadorId };
         yield return PostRequest(url, JsonUtility.ToJson(data), onSuccess, onError);
+    }
+
+    public IEnumerator GetPartida(string codiSala, Action<string> onSuccess, Action<string> onError)
+    {
+        string url = BASE_URL + "/api/partides/" + codiSala;
+        yield return GetRequest(url, onSuccess, onError);
     }
 
     // --- HELPER PER FER EL POST AMB JSON ---
@@ -82,6 +88,23 @@ public class ApiManager : MonoBehaviour
         }
     }
 
+    private IEnumerator GetRequest(string url, Action<string> onSuccess, Action<string> onError)
+    {
+        using (UnityWebRequest request = UnityWebRequest.Get(url))
+        {
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                onSuccess?.Invoke(request.downloadHandler.text);
+            }
+            else
+            {
+                onError?.Invoke(request.error);
+            }
+        }
+    }
+
     // --- CLASSES PER AL JSON ---
 
     [Serializable]
@@ -92,5 +115,26 @@ public class ApiManager : MonoBehaviour
     private class JoinGame { public string codiSala; public string usuariId; }
     [Serializable]
     private class EndGame { public string codiSala; public string guanyadorId; }
-   
+
+    [Serializable]
+    public class RankingWrapper { public UserStats[] ranking; }
+
+    [Serializable]
+    public class UserStats { public string nomUsuari; public int victories; }
+
+    [Serializable]
+    public class PartidaData
+    {
+        public string codiSala;
+        public string estat;
+        public UserInfo[] jugadors;
+        public UserInfo guanyador;
+    }
+
+    [Serializable]
+    public class UserInfo
+    {
+        public string _id;
+        public string nomUsuari;
+    }
 }

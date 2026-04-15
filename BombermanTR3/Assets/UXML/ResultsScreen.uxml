@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/USS/ResultsStyles.uss" />
+    
+    <ui:VisualElement name="Contenidor" class="contenidor-fons">
+        <ui:VisualElement name="PanellResultats" class="panell-central">
+            
+            <ui:Label text="FI DE LA PARTIDA" name="TitolResultat" class="titol-principal" />
+            <ui:Label text="GUANYADOR:" class="text-secundari" style="margin-bottom: 5px;" />
+            <ui:Label text="Carregant..." name="TextResultat" class="guanyador-destacat" />
+            
+            <ui:VisualElement style="height: 40px;" /> <!-- Espaiador -->
+            
+            <ui:Button text="TORNAR AL MENÚ" name="BotoTornar" class="boto-blau" />
+            
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

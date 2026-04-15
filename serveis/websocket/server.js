@@ -31,7 +31,7 @@ wss.on('connection', function (ws) {
             }
 
             if (ws.codiSala && sales.has(ws.codiSala)) {
-                const tipusPermesos = ['moure', 'posar_bomba', 'explosio', 'jugador_mort', 'fi_partida', 'spawn_item'];
+                const tipusPermesos = ['moure', 'posar_bomba', 'explosio', 'jugador_mort', 'fi_partida', 'spawn_item', 'comencar_partida'];
                 if (tipusPermesos.includes(missatge.tipus)) {
                     const clientsEnSala = sales.get(ws.codiSala);
                     let enviats = 0;

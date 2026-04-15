@@ -4,6 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const partidaRoutes = require('./src/routes/partidaRoutes');
+require('./src/models/Usuari');
 
 const app = express();
 

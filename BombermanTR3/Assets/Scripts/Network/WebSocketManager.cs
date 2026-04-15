@@ -145,8 +145,14 @@ public class WebSocketManager : MonoBehaviour
             if (ws != null)
             {
                 cts.Cancel();
-                await ws.CloseAsync(WebSocketCloseStatus.NormalClosure, "Tancant sessió", CancellationToken.None);
+                
+                if (ws.State == WebSocketState.Open || ws.State == WebSocketState.CloseReceived || ws.State == WebSocketState.CloseSent)
+                {
+                    await ws.CloseAsync(WebSocketCloseStatus.NormalClosure, "Tancant sessió", CancellationToken.None);
+                }
+                
                 ws.Dispose();
+                ws = null;
                 Debug.Log("WebSocket desconnectat.");
             }
         }

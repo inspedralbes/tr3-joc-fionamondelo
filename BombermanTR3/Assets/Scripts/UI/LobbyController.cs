@@ -35,27 +35,66 @@ public class LobbyController : MonoBehaviour
 
         botoCrearPartida.clicked += OnCrearPartida;
         botoUnirse.clicked += OnUnirse;
+
+        if (WebSocketManager.Instance != null)
+        {
+            WebSocketManager.Instance.OnMissatgeRebut += PotserComencarPartida;
+        }
     }
+
+    private void PotserComencarPartida(string tipus, string json)
+    {
+        if (tipus == "comencar_partida")
+        {
+            Debug.Log("L'amfitrió ha iniciat la partida!");
+            SceneManager.LoadScene("GameScene");
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (WebSocketManager.Instance != null)
+        {
+            WebSocketManager.Instance.OnMissatgeRebut -= PotserComencarPartida;
+        }
+    }
+
     private void OnCrearPartida()
     {
+        textError.text = "Creant sala...";
+        textError.style.display = DisplayStyle.Flex;
+        DesactivarBotons();
+
         StartCoroutine(ApiManager.Instance.CrearPartida(
             (json) =>
             {
-                Debug.Log("Partida creada: " + json);
-                PartidaData data = JsonUtility.FromJson<PartidaData>(json);
+                ApiManager.PartidaData data = JsonUtility.FromJson<ApiManager.PartidaData>(json);
                 GameManager.Instance.codiSala = data.codiSala;
                 GameManager.Instance.esPrimary = true;
 
-                textEstat.style.display = DisplayStyle.Flex;
                 textCodiSala.style.display = DisplayStyle.Flex;
-                textCodiSala.text = "Codi: " + data.codiSala;
+                textCodiSala.text = "Sala: " + data.codiSala;
 
-                StartCoroutine(EsperarJugador());
+                StartCoroutine(ApiManager.Instance.UnirsePartida(data.codiSala, GameManager.Instance.usuariId,
+                    async (joinJson) => {
+                        Debug.Log("Creador unit");
+                        textEstat.style.display = DisplayStyle.Flex;
+                        textEstat.text = "Esperant rival...";
+                        textError.style.display = DisplayStyle.None;
+                        
+                        // Connectem al WebSocket ja mateix
+                        await WebSocketManager.Instance.ConnectAsync(data.codiSala);
+                        StartCoroutine(EsperarJugador());
+                    },
+                    (joinError) => {
+                        textError.text = "Error al unir-se: " + joinError;
+                        ActivarBotons();
+                    }
+                ));
             },
-            (error) =>
-            {
+            (error) => {
                 textError.text = "Error: " + error;
-                textError.style.display = DisplayStyle.Flex;
+                ActivarBotons();
             }
         ));
     }
@@ -63,26 +102,34 @@ public class LobbyController : MonoBehaviour
     private void OnUnirse()
     {
         string codi = inputCodiSala.value;
+        if (string.IsNullOrEmpty(codi)) return;
 
-        if (string.IsNullOrEmpty(codi))
-        {
-            textError.text = "Introdueix un codi de sala!";
-            textError.style.display = DisplayStyle.Flex;
-            return;
-        }
+        textError.text = "Unint-se...";
+        textError.style.display = DisplayStyle.Flex;
+        DesactivarBotons();
 
         StartCoroutine(ApiManager.Instance.UnirsePartida(codi, GameManager.Instance.usuariId,
-            (json) =>
+            async (json) =>
             {
                 GameManager.Instance.codiSala = codi;
                 GameManager.Instance.esPrimary = false;
-                _ = WebSocketManager.Instance.ConnectAsync(codi);
-                SceneManager.LoadScene("GameScene");
+
+                textEstat.style.display = DisplayStyle.Flex;
+                textEstat.text = "Esperant que l'amfitrió comenci...";
+                textError.style.display = DisplayStyle.None;
+
+                // Connectem i ens quedem escoltant
+                await WebSocketManager.Instance.ConnectAsync(codi);
+                
+                // Amaguem el que no toca per indicar que estem "en cua"
+                botoCrearPartida.style.display = DisplayStyle.None;
+                botoUnirse.style.display = DisplayStyle.None;
+                inputCodiSala.style.display = DisplayStyle.None;
             },
             (error) =>
             {
                 textError.text = "Error: " + error;
-                textError.style.display = DisplayStyle.Flex;
+                ActivarBotons();
             }
         ));
     }
@@ -90,21 +137,18 @@ public class LobbyController : MonoBehaviour
     private IEnumerator EsperarJugador()
     {
         string url = "http://localhost:8080/api/partides/" + GameManager.Instance.codiSala;
-
         while (true)
         {
             yield return new WaitForSeconds(2f);
-
             using (UnityWebRequest request = UnityWebRequest.Get(url))
             {
                 yield return request.SendWebRequest();
-
                 if (request.result == UnityWebRequest.Result.Success)
                 {
-                    PartidaData data = JsonUtility.FromJson<PartidaData>(request.downloadHandler.text);
-
-                    if (data.jugadors != null && data.jugadors.Length >= 1)
+                    ApiManager.PartidaData data = JsonUtility.FromJson<ApiManager.PartidaData>(request.downloadHandler.text);
+                    if (data.jugadors != null && data.jugadors.Length >= 2)
                     {
+                        textEstat.text = "Rival connectat!";
                         botoIniciar.style.display = DisplayStyle.Flex;
                         yield break;
                     }
@@ -112,16 +156,26 @@ public class LobbyController : MonoBehaviour
             }
         }
     }
+
     private void OnIniciar()
     {
-        _ = WebSocketManager.Instance.ConnectAsync(GameManager.Instance.codiSala);
+        if (WebSocketManager.Instance != null)
+        {
+            // Avisem a l'altre jugador
+            WebSocketManager.Instance.SendMessage("comencar_partida", "{}");
+        }
         SceneManager.LoadScene("GameScene");
     }
 
-    [Serializable]
-    private class PartidaData
+    private void DesactivarBotons()
     {
-        public string codiSala;
-        public string[] jugadors;
+        botoCrearPartida.SetEnabled(false);
+        botoUnirse.SetEnabled(false);
+    }
+
+    private void ActivarBotons()
+    {
+        botoCrearPartida.SetEnabled(true);
+        botoUnirse.SetEnabled(true);
     }
 }
