@@ -4878,6 +4878,10 @@ MonoBehaviour:
   nomUsuari: 
   codiSala: 
   esPrimary: 0
+  spawnableItems:
+  - {fileID: 5112010509734134689, guid: 7f83fbc9406a79045b607a6ecb3a2214, type: 3}
+  - {fileID: 243913618724983894, guid: 8f7ed866490b87040b105ca69e0be8f1, type: 3}
+  - {fileID: 7506237636575677455, guid: 4e68e6dcecd4e6e4387c78461698e93c, type: 3}
 --- !u!4 &1702450777
 Transform:
   m_ObjectHideFlags: 0

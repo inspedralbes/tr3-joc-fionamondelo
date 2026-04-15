@@ -392,10 +392,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b08b333c2a16cc49b0b6ac04edc37e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  players: []
   usuariId: 
   nomUsuari: 
   codiSala: 
   esPrimary: 0
+  spawnableItems:
+  - {fileID: 5112010509734134689, guid: 7f83fbc9406a79045b607a6ecb3a2214, type: 3}
+  - {fileID: 243913618724983894, guid: 8f7ed866490b87040b105ca69e0be8f1, type: 3}
+  - {fileID: 7506237636575677455, guid: 4e68e6dcecd4e6e4387c78461698e93c, type: 3}
 --- !u!4 &1834662127
 Transform:
   m_ObjectHideFlags: 0
