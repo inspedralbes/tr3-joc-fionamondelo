@@ -32,15 +32,30 @@
 /* Inputs y Labels en Panel */
 #InputCodiSala {
     width: 320px;
-    height: 44px;
-    background-color: rgb(20, 20, 35);
+    margin-bottom: 25px;
+    flex-direction: column; /* Etiqueta a sobre */
+}
+
+#InputCodiSala .unity-text-field__label {
+    color: rgb(255, 200, 50); /* Daurat */
+    font-size: 14px;
+    -unity-font-style: bold;
+    min-width: 100px;
+    margin-bottom: 4px;
+}
+
+#InputCodiSala .unity-text-field__input {
+    background-color: rgb(15, 15, 25);
     border-color: rgb(70, 70, 110);
     border-width: 1px;
     border-radius: 8px;
-    color: rgb(220, 220, 240);
-    font-size: 14px;
-    padding: 5px 12px;
-    margin-bottom: 12px;
+    color: white;
+    font-size: 16px;
+    padding: 8px 12px;
+}
+
+#InputCodiSala .unity-text-field__input:focus {
+    border-color: rgb(255, 200, 50);
 }
 
 /* Botons */

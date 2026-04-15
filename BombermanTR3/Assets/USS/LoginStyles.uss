@@ -32,20 +32,33 @@
 /* Inputs */
 #InputUsuari, #InputContrasenya {
     width: 300px;
-    height: 44px;
-    background-color: rgb(20, 20, 35);
+    margin-bottom: 20px;
+    flex-direction: column; /* Etiqueta a sobre de l'input */
+}
+
+#InputUsuari .unity-text-field__label, 
+#InputContrasenya .unity-text-field__label {
+    color: rgb(255, 200, 50); /* Daurat */
+    font-size: 14px;
+    -unity-font-style: bold;
+    min-width: 100px;
+    margin-bottom: 2px;
+}
+
+#InputUsuari .unity-text-field__input, 
+#InputContrasenya .unity-text-field__input {
+    background-color: rgb(15, 15, 25);
     border-color: rgb(70, 70, 110);
     border-width: 1px;
     border-radius: 8px;
-    color: rgb(253, 253, 255);
-    font-size: 14px;
-    padding: 5px 12px;
-    margin-bottom: 12px;
+    color: white;
+    font-size: 16px;
+    padding: 8px 12px;
 }
 
-#InputUsuari:focus, #InputContrasenya:focus {
+#InputUsuari .unity-text-field__input:focus, 
+#InputContrasenya .unity-text-field__input:focus {
     border-color: rgb(255, 200, 50);
-    border-width: 2px;
 }
 
 /* Botons */
