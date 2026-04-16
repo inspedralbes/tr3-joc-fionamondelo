@@ -73,18 +73,26 @@ public class BombController : MonoBehaviour
         }
     }
 
-    private void Update()
+    public void TryPlaceBomb()
     {
-        // Solo mi jugador local lee el teclado
-        if (movementController != null && !movementController.esMeu) return;
-
-        if (bombsRemaining > 0 && Input.GetKeyDown(inputKey))
+        if (bombsRemaining > 0)
         {
             StartCoroutine(PlaceBomb());
         }
     }
 
-    private IEnumerator PlaceBomb()
+    private void Update()
+    {
+        // Solo mi jugador local lee el teclado
+        if (movementController != null && !movementController.esMeu) return;
+
+        if (Input.GetKeyDown(inputKey))
+        {
+            TryPlaceBomb();
+        }
+    }
+
+    public IEnumerator PlaceBomb()
     {
         Vector2 position = transform.position;
         position.x = Mathf.Floor(position.x) + 0.5f;

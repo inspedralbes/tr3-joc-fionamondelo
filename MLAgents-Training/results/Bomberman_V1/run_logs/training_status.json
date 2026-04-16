@@ -1,0 +1,29 @@
+{
+    "BombermanBehavior": {
+        "checkpoints": [
+            {
+                "steps": 300057,
+                "file_path": "results/Bomberman_V1/BombermanBehavior/BombermanBehavior-300057.onnx",
+                "reward": -1.5631111330456204,
+                "creation_time": 1776332852.7976599,
+                "auxillary_file_paths": [
+                    "results/Bomberman_V1/BombermanBehavior/BombermanBehavior-300057.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 300057,
+            "file_path": "results/Bomberman_V1/BombermanBehavior.onnx",
+            "reward": -1.5631111330456204,
+            "creation_time": 1776332852.7976599,
+            "auxillary_file_paths": [
+                "results/Bomberman_V1/BombermanBehavior/BombermanBehavior-300057.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}
