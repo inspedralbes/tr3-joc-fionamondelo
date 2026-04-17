@@ -46,18 +46,14 @@ public class WebSocketManager : MonoBehaviour
             Uri serverUri = new Uri("ws://localhost:8080/ws");
 
             await ws.ConnectAsync(serverUri, cts.Token);
-            Debug.Log("WebSocket connectat!");
 
-            // Enviem el missatge per unir-nos a la sala
             string msg = "{\"tipus\":\"unir_sala\",\"codiSala\":\"" + codiSala + "\"}";
             await SendMessageRaw(msg);
 
-            // Iniciar la recepció de missatges en segon pla
             _ = StartReceiving();
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            Debug.LogError("Error en connectar al WebSocket: " + e.Message);
         }
     }
 
@@ -65,7 +61,6 @@ public class WebSocketManager : MonoBehaviour
     {
         try
         {
-            // ajuntem el tipus i el JSON manualment
             string fullJson = jsonData;
             if (string.IsNullOrEmpty(jsonData) || jsonData == "{}")
             {
@@ -73,15 +68,13 @@ public class WebSocketManager : MonoBehaviour
             }
             else
             {
-                // Inserim el tipus al principi del JSON existent
                 fullJson = jsonData.Replace("{", "{\"tipus\":\"" + tipus + "\",");
             }
 
             await SendMessageRaw(fullJson);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            Debug.LogError("Error en enviar missatge: " + e.Message);
         }
     }
 
@@ -114,12 +107,8 @@ public class WebSocketManager : MonoBehaviour
                 }
             }
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            if (ws.State != WebSocketState.Aborted)
-            {
-                Debug.LogError("Error en la recepció del WebSocket: " + e.Message);
-            }
         }
     }
 
@@ -128,13 +117,10 @@ public class WebSocketManager : MonoBehaviour
         try
         {
             BaseMessage msg = JsonUtility.FromJson<BaseMessage>(json);
-            Debug.Log(">>> WS RAW REBUT: " + json); // ← AÑADIR
-            Debug.Log(">>> Subscribers a OnMissatgeRebut: " + (OnMissatgeRebut != null ? OnMissatgeRebut.GetInvocationList().Length.ToString() : "0")); // ← AÑADIR
             mainThreadQueue.Enqueue(() => OnMissatgeRebut?.Invoke(msg.tipus, json));
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            Debug.LogError("Error en processar el missatge JSON: " + e.Message);
         }
     }
 
@@ -153,12 +139,10 @@ public class WebSocketManager : MonoBehaviour
                 
                 ws.Dispose();
                 ws = null;
-                Debug.Log("WebSocket desconnectat.");
             }
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            Debug.LogError("Error en desconnectar: " + e.Message);
         }
     }
 

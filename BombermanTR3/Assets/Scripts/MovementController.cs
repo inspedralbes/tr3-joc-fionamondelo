@@ -29,8 +29,6 @@ public class MovementController : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("MovementController: " + gameObject.name + " iniciat. esMeu = " + esMeu);
-
         if (WebSocketManager.Instance != null)
         {
             WebSocketManager.Instance.OnMissatgeRebut += OnMissatgeRebut;
@@ -44,57 +42,55 @@ public class MovementController : MonoBehaviour
         targetPosition = rigidbody.position;
     }
 
-    // MovementController.cs - elimina el bloque "else" del Update() para el remoto
-private void Update()
-{
-    if (!esMeu) return; // ← El remoto no hace nada en Update
-
-    Vector2 lastDirection = direction;
-
-    if (Input.GetKey(inputUp)) {
-        SetDirection(Vector2.up, spriteRendererUp);
-    } else if (Input.GetKey(inputDown)) {
-        SetDirection(Vector2.down, spriteRendererDown);
-    } else if (Input.GetKey(inputLeft)) {
-        SetDirection(Vector2.left, spriteRendererLeft);
-    } else if (Input.GetKey(inputRight)) {
-        SetDirection(Vector2.right, spriteRendererRight);
-    } else {
-        SetDirection(Vector2.zero, activeSpriteRenderer);
-    }
-
-    if (lastDirection != Vector2.zero && direction == Vector2.zero)
+    private void Update()
     {
-        EnviarPosicio();
-    }
-}
+        if (!esMeu) return;
 
-private void FixedUpdate()
-{
-    if (esMeu)
-    {
-        // Lógica local - igual que antes
-        Vector2 position = rigidbody.position;
-        Vector2 translation = direction * speed * Time.fixedDeltaTime;
-        rigidbody.MovePosition(position + translation);
+        Vector2 lastDirection = direction;
 
-        if (direction != Vector2.zero && Time.time - lastSendTime > networkSendRate)
+        if (Input.GetKey(inputUp)) {
+            SetDirection(Vector2.up, spriteRendererUp);
+        } else if (Input.GetKey(inputDown)) {
+            SetDirection(Vector2.down, spriteRendererDown);
+        } else if (Input.GetKey(inputLeft)) {
+            SetDirection(Vector2.left, spriteRendererLeft);
+        } else if (Input.GetKey(inputRight)) {
+            SetDirection(Vector2.right, spriteRendererRight);
+        } else {
+            SetDirection(Vector2.zero, activeSpriteRenderer);
+        }
+
+        if (lastDirection != Vector2.zero && direction == Vector2.zero)
         {
             EnviarPosicio();
-            lastSendTime = Time.time;
         }
     }
-    else
+
+    private void FixedUpdate()
     {
-        // Lógica remota - interpolación en FixedUpdate con MovePosition
-        Vector2 newPos = Vector2.MoveTowards(
-            rigidbody.position,
-            targetPosition,
-            speed * 1.2f * Time.fixedDeltaTime
-        );
-        rigidbody.MovePosition(newPos);
+        if (esMeu)
+        {
+            Vector2 position = rigidbody.position;
+            Vector2 translation = direction * speed * Time.fixedDeltaTime;
+            rigidbody.MovePosition(position + translation);
+
+            if (direction != Vector2.zero && Time.time - lastSendTime > networkSendRate)
+            {
+                EnviarPosicio();
+                lastSendTime = Time.time;
+            }
+        }
+        else
+        {
+            Vector2 newPos = Vector2.MoveTowards(
+                rigidbody.position,
+                targetPosition,
+                speed * 1.2f * Time.fixedDeltaTime
+            );
+            rigidbody.MovePosition(newPos);
+        }
     }
-}
+
     private void EnviarPosicio()
     {
         if (WebSocketManager.Instance != null)
@@ -116,16 +112,13 @@ private void FixedUpdate()
             try
             {
                 PosicioData data = JsonUtility.FromJson<PosicioData>(json);
-                // En lugar de moverlo aquí, guardamos el destino
                 targetPosition = new Vector2(data.x, data.y);
 
-                // Actualitzem la direcció per a les animacions
                 Vector2 novaDireccio = new Vector2(data.dx, data.dy);
                 ActualitzarAnimacioRemota(novaDireccio);
             }
-            catch (System.Exception e)
+            catch (System.Exception)
             {
-                Debug.LogError("Error processant moviment remot: " + e.Message + " JSON: " + json);
             }
         }
     }
@@ -194,7 +187,6 @@ private void FixedUpdate()
         gameObject.SetActive(false);
         GameManager.Instance.CheckWinState();
     }
-
 }
 
 [System.Serializable]

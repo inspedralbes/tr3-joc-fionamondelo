@@ -12,11 +12,9 @@ public class GameManager : MonoBehaviour
     public string codiSala;
     public bool esPrimary;
 
-    [Header("Configuració de Red")]
     public GameObject bombPrefab;
     public GameObject[] spawnableItems;
 
-    [Header("Escenes")]
     public string nomEscenaResultats = "ResultsScene"; 
 
     private void Awake()
@@ -79,7 +77,6 @@ public class GameManager : MonoBehaviour
         }
         else if (tipus == "jugador_mort")
         {
-            // Si el mensaje es de muerte, apago al jugador que NO soy yo
             foreach (GameObject player in players)
             {
                 if (player != null)
@@ -124,7 +121,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // --- LÓGICA DE FIN DE PARTIDA ---
     public void CheckWinState()
     {
         if (players == null || players.Length == 0) EncontrarJugadoresEnEscena();
@@ -148,10 +144,9 @@ public class GameManager : MonoBehaviour
                 MovementController mc = winner.GetComponent<MovementController>();
                 if (mc != null && mc.esMeu)
                 {
-                    Debug.Log("¡HE GANADO! Avisando a la API...");
                     StartCoroutine(ApiManager.Instance.FinalitzarPartida(codiSala, usuariId, 
-                        (exit) => Debug.Log("Partida guardada: " + exit),
-                        (err) => Debug.LogError("Error API: " + err)
+                        (exit) => {},
+                        (err) => {}
                     ));
                 }
             }

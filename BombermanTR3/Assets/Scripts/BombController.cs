@@ -32,7 +32,6 @@ public class BombController : MonoBehaviour
     {
         bombsRemaining = bombAmount;
         
-        // El script se suscribe directamente a la red (igual que el movimiento)
         if (WebSocketManager.Instance != null)
         {
             WebSocketManager.Instance.OnMissatgeRebut += ProcessarMissatgeXarxa;
@@ -49,16 +48,13 @@ public class BombController : MonoBehaviour
 
     private void ProcessarMissatgeXarxa(string tipus, string json)
     {
-        // REPLICA DEL MOVIMIENTO: Si soy el jugador local, ignoro el mensaje (yo ya la puse con el teclado)
         if (movementController != null && movementController.esMeu) return;
 
-        // Si soy el jugador remoto (el títere), pongo la bomba cuando lo dicta el servidor
         if (tipus == "posar_bomba")
         {
             PositionalMessage msg = JsonUtility.FromJson<PositionalMessage>(json);
             Vector2 pos = new Vector2(msg.x, msg.y);
 
-            // Crear la bomba
             GameObject bombObj = Instantiate(bombPrefab, pos, Quaternion.identity);
             Bomb bombScript = bombObj.GetComponent<Bomb>();
             if (bombScript == null) bombScript = bombObj.AddComponent<Bomb>();
@@ -83,7 +79,6 @@ public class BombController : MonoBehaviour
 
     private void Update()
     {
-        // Solo mi jugador local lee el teclado
         if (movementController != null && !movementController.esMeu) return;
 
         if (Input.GetKeyDown(inputKey))
@@ -98,7 +93,6 @@ public class BombController : MonoBehaviour
         position.x = Mathf.Floor(position.x) + 0.5f;
         position.y = Mathf.Floor(position.y) + 0.5f;
 
-        // 1. Crear bomba local
         GameObject bombObj = Instantiate(bombPrefab, position, Quaternion.identity);
         Bomb bombScript = bombObj.GetComponent<Bomb>();
         if (bombScript == null) bombScript = bombObj.AddComponent<Bomb>();
@@ -113,7 +107,6 @@ public class BombController : MonoBehaviour
 
         bombsRemaining--;
 
-        // 2. Enviar por red EXACTAMENTE con el formato de string que funciona en tu servidor
         if (WebSocketManager.Instance != null) {
             string msgJson = "{\"x\":" + position.x.ToString(System.Globalization.CultureInfo.InvariantCulture) +
                              ",\"y\":" + position.y.ToString(System.Globalization.CultureInfo.InvariantCulture) + "}";

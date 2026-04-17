@@ -41,7 +41,6 @@ public class LoginController : MonoBehaviour
 
         StartCoroutine(ApiManager.Instance.LoginUsuari(nom, pass, 
             (json) => {
-                Debug.Log("Resposta login: " + json);
                 UserData data = JsonUtility.FromJson<UserData>(json);
                 GameManager.Instance.usuariId = data._id;
                 GameManager.Instance.nomUsuari = data.nomUsuari;
@@ -75,7 +74,6 @@ public class LoginController : MonoBehaviour
             }, 
             (error) => {
                 textMissatge.text = "Error: " + error;
-                Debug.LogError("Error registre: " + error);
                 ActivarBotons();
             }
         ));

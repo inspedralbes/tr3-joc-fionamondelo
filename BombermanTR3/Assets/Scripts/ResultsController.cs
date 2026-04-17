@@ -17,11 +17,9 @@ public class ResultsController : MonoBehaviour
 
         var root = uiDocument.rootVisualElement;
 
-        // Buscamos los elementos del UXML por su atributo "name"
         textResultat = root.Q<Label>("TextResultat");
         botoTornar = root.Q<Button>("BotoTornar");
 
-        // Asignamos la acción al botón
         if (botoTornar != null)
         {
             botoTornar.clicked += VolverAlMenu;
@@ -54,12 +52,10 @@ public class ResultsController : MonoBehaviour
                 }
             },
             (error) => {
-                Debug.LogError("Error recuperant resultats: " + error);
                 textResultat.text = "Error al carregar resultats.";
             }
         ));
 
-        // Desconectar el WebSocket
         if (WebSocketManager.Instance != null)
         {
             WebSocketManager.Instance.Disconnect();
@@ -68,9 +64,6 @@ public class ResultsController : MonoBehaviour
 
     private void VolverAlMenu()
     {
-        Debug.Log("Tornant al menú principal...");
-
-        // Destruir el GameManager actual para tener uno limpio al volver
         if (GameManager.Instance != null)
         {
             Destroy(GameManager.Instance.gameObject);

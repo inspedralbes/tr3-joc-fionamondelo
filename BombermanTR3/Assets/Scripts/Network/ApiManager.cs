@@ -22,8 +22,6 @@ public class ApiManager : MonoBehaviour
         }
     }
 
-    // --- MÈTODES DE L'API ---
-
     public IEnumerator RegistrarUsuari(string nomUsuari, string contrasenya, Action<string> onSuccess, Action<string> onError)
     {
         string url = BASE_URL + "/api/usuaris/registrar";
@@ -64,8 +62,6 @@ public class ApiManager : MonoBehaviour
         yield return GetRequest(url, onSuccess, onError);
     }
 
-    // --- HELPER PER FER EL POST AMB JSON ---
-
     private IEnumerator PostRequest(string url, string jsonData, Action<string> onSuccess, Action<string> onError)
     {
         using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
@@ -104,8 +100,6 @@ public class ApiManager : MonoBehaviour
             }
         }
     }
-
-    // --- CLASSES PER AL JSON ---
 
     [Serializable]
     private class UserRegistration { public string nomUsuari; public string alias; public string contrasenya; }

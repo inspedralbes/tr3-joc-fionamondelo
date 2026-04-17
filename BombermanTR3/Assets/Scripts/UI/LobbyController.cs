@@ -46,7 +46,6 @@ public class LobbyController : MonoBehaviour
     {
         if (tipus == "comencar_partida")
         {
-            Debug.Log("L'amfitrió ha iniciat la partida!");
             SceneManager.LoadScene("GameScene");
         }
     }
@@ -77,12 +76,10 @@ public class LobbyController : MonoBehaviour
 
                 StartCoroutine(ApiManager.Instance.UnirsePartida(data.codiSala, GameManager.Instance.usuariId,
                     async (joinJson) => {
-                        Debug.Log("Creador unit");
                         textEstat.style.display = DisplayStyle.Flex;
                         textEstat.text = "Esperant rival...";
                         textError.style.display = DisplayStyle.None;
                         
-                        // Connectem al WebSocket ja mateix
                         await WebSocketManager.Instance.ConnectAsync(data.codiSala);
                         StartCoroutine(EsperarJugador());
                     },
@@ -118,10 +115,8 @@ public class LobbyController : MonoBehaviour
                 textEstat.text = "Esperant que l'amfitrió comenci...";
                 textError.style.display = DisplayStyle.None;
 
-                // Connectem i ens quedem escoltant
                 await WebSocketManager.Instance.ConnectAsync(codi);
                 
-                // Amaguem el que no toca per indicar que estem "en cua"
                 botoCrearPartida.style.display = DisplayStyle.None;
                 botoUnirse.style.display = DisplayStyle.None;
                 inputCodiSala.style.display = DisplayStyle.None;
@@ -161,7 +156,6 @@ public class LobbyController : MonoBehaviour
     {
         if (WebSocketManager.Instance != null)
         {
-            // Avisem a l'altre jugador
             WebSocketManager.Instance.SendMessage("comencar_partida", "{}");
         }
         SceneManager.LoadScene("GameScene");

@@ -15,20 +15,16 @@ public class Destructible : MonoBehaviour
 
     private void OnDestroy()
     {
-        // Evita errores si la escena se está cerrando
         if (!gameObject.scene.isLoaded) return;
 
-        // SOLO EL HOST (esPrimary) decide la suerte
         if (GameManager.Instance != null && GameManager.Instance.esPrimary)
         {
             if (spawnableItems.Length > 0 && Random.value < itemSpawnChance)
             {
                 int randomIndex = Random.Range(0, spawnableItems.Length);
                 
-                // Spawnea localmente en el Host
                 Instantiate(spawnableItems[randomIndex], transform.position, Quaternion.identity);
 
-                // Avisa al Player 2 por red
                 if (WebSocketManager.Instance != null)
                 {
                     ItemSpawnMsg msg = new ItemSpawnMsg 
@@ -43,7 +39,6 @@ public class Destructible : MonoBehaviour
         }
     }
 
-    // Estructura para enviar el mensaje por JSON
     [System.Serializable]
     public class ItemSpawnMsg
     {

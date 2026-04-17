@@ -303,8 +303,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Inspector\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 717
-    y: 131
+    x: 652
+    y: 24
     width: 275
     height: 903
   m_SerializedDataModeController:
@@ -352,8 +352,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Project\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 66
-    y: 764
+    x: 0
+    y: 657
     width: 650
     height: 270
   m_SerializedDataModeController:
@@ -398,7 +398,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: cc670100
     m_LastClickedID: 92108
-    m_ExpandedIDs: 00000000ee1e01003628010000ca9a3b
+    m_ExpandedIDs: 00000000d0ce0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -427,7 +427,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 
+    m_ExpandedIDs: 00000000d0ce0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -529,18 +529,18 @@ MonoBehaviour:
       m_ExpandedIDs: a0aafeffc6d0feffa4d1feffdcd2fefff2d7feff1ce8feffcce8feff74e9feff2aeafeffd8eafeff88ebfeff38ecfeffeeecfeffa4edfeff58eefeff28f3feffbe5d0100
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: Stage
-        m_OriginalName: Stage
+        m_Name: 
+        m_OriginalName: 
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 89534
+        m_UserData: 0
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 0
+        m_OriginalEventType: 11
         m_IsRenamingFilename: 0
         m_TrimLeadingAndTrailingWhitespace: 0
         m_ClientGUIView: {fileID: 3}
@@ -1127,8 +1127,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Game\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 66
-    y: 131
+    x: 0
+    y: 24
     width: 650
     height: 607
   m_SerializedDataModeController:
