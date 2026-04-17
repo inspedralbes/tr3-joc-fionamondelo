@@ -7,7 +7,10 @@ using System.Text;
 public class ApiManager : MonoBehaviour
 {
     public static ApiManager Instance { get; private set; }
-    private const string BASE_URL = "http://localhost:8080";
+    public string serverIp = "204.168.211.255";
+    public bool useLocalhost = true;
+
+    private string BaseUrl => useLocalhost ? "http://localhost:8080" : $"http://{serverIp}:8080";
 
     private void Awake()
     {
@@ -24,46 +27,47 @@ public class ApiManager : MonoBehaviour
 
     public IEnumerator RegistrarUsuari(string nomUsuari, string contrasenya, Action<string> onSuccess, Action<string> onError)
     {
-        string url = BASE_URL + "/api/usuaris/registrar";
+        string url = BaseUrl + "/api/usuaris/registrar";
         UserRegistration data = new UserRegistration { nomUsuari = nomUsuari, alias = nomUsuari, contrasenya = contrasenya };
         yield return PostRequest(url, JsonUtility.ToJson(data), onSuccess, onError);
     }
 
     public IEnumerator LoginUsuari(string nomUsuari, string contrasenya, Action<string> onSuccess, Action<string> onError)
     {
-        string url = BASE_URL + "/api/usuaris/login";
+        string url = BaseUrl + "/api/usuaris/login";
         UserLogin data = new UserLogin { nomUsuari = nomUsuari, contrasenya = contrasenya };
         yield return PostRequest(url, JsonUtility.ToJson(data), onSuccess, onError);
     }
 
     public IEnumerator CrearPartida(Action<string> onSuccess, Action<string> onError)
     {
-        string url = BASE_URL + "/api/partides/crear";
+        string url = BaseUrl + "/api/partides/crear";
         yield return PostRequest(url, "{}", onSuccess, onError);
     }
 
     public IEnumerator UnirsePartida(string codiSala, string usuariId, Action<string> onSuccess, Action<string> onError)
     {
-        string url = BASE_URL + "/api/partides/unirse";
+        string url = BaseUrl + "/api/partides/unirse";
         JoinGame data = new JoinGame { codiSala = codiSala, usuariId = usuariId };
         yield return PostRequest(url, JsonUtility.ToJson(data), onSuccess, onError);
     }
 
     public IEnumerator FinalitzarPartida(string codiSala, string guanyadorId, Action<string> onSuccess, Action<string> onError)
     {
-        string url = BASE_URL + "/api/partides/finalitzar";
+        string url = BaseUrl + "/api/partides/finalitzar";
         EndGame data = new EndGame { codiSala = codiSala, guanyadorId = guanyadorId };
         yield return PostRequest(url, JsonUtility.ToJson(data), onSuccess, onError);
     }
 
     public IEnumerator GetPartida(string codiSala, Action<string> onSuccess, Action<string> onError)
     {
-        string url = BASE_URL + "/api/partides/" + codiSala;
+        string url = BaseUrl + "/api/partides/" + codiSala;
         yield return GetRequest(url, onSuccess, onError);
     }
 
     private IEnumerator PostRequest(string url, string jsonData, Action<string> onSuccess, Action<string> onError)
     {
+        Debug.Log(">>> API CALL: " + url + "\nJSON: " + jsonData);
         using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
         {
             byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonData);
@@ -86,6 +90,7 @@ public class ApiManager : MonoBehaviour
 
     private IEnumerator GetRequest(string url, Action<string> onSuccess, Action<string> onError)
     {
+        Debug.Log(">>> API CALL (GET): " + url);
         using (UnityWebRequest request = UnityWebRequest.Get(url))
         {
             yield return request.SendWebRequest();

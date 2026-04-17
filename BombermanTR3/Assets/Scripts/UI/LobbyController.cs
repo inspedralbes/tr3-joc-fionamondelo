@@ -131,24 +131,25 @@ public class LobbyController : MonoBehaviour
 
     private IEnumerator EsperarJugador()
     {
-        string url = "http://localhost:8080/api/partides/" + GameManager.Instance.codiSala;
         while (true)
         {
             yield return new WaitForSeconds(2f);
-            using (UnityWebRequest request = UnityWebRequest.Get(url))
-            {
-                yield return request.SendWebRequest();
-                if (request.result == UnityWebRequest.Result.Success)
-                {
-                    ApiManager.PartidaData data = JsonUtility.FromJson<ApiManager.PartidaData>(request.downloadHandler.text);
+            yield return ApiManager.Instance.GetPartida(GameManager.Instance.codiSala, 
+                (json) => {
+                    ApiManager.PartidaData data = JsonUtility.FromJson<ApiManager.PartidaData>(json);
                     if (data.jugadors != null && data.jugadors.Length >= 2)
                     {
                         textEstat.text = "Rival connectat!";
                         botoIniciar.style.display = DisplayStyle.Flex;
-                        yield break;
                     }
+                },
+                (error) => {
+                    Debug.LogError("Error polling partida: " + error);
                 }
-            }
+            );
+
+            // Si ja ha aparegut el botó d'iniciar, parem de fer poling
+            if (botoIniciar.style.display == DisplayStyle.Flex) yield break;
         }
     }
 

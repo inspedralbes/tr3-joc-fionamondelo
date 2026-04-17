@@ -43,7 +43,12 @@ public class WebSocketManager : MonoBehaviour
         {
             ws = new ClientWebSocket();
             cts = new CancellationTokenSource();
-            Uri serverUri = new Uri("ws://localhost:8080/ws");
+            
+            string ip = "localhost";
+            if (ApiManager.Instance != null && !ApiManager.Instance.useLocalhost) {
+                ip = ApiManager.Instance.serverIp;
+            }
+            Uri serverUri = new Uri($"ws://{ip}:8080/ws");
 
             await ws.ConnectAsync(serverUri, cts.Token);
 
