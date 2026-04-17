@@ -1,21 +1,21 @@
 # BombermanTR3 - Joc Multijugador en Temps Real
 
-## 👥 Integrants
+## Integrants
 * Fiona Mondelo Giaramita 
 
 ---
 
-## 🎮 Nom del Projecte
+## Nom del Projecte
 **BombermanTR3** - Joc multijugador clàssic.
 
 ---
 
-## 📝 Descripció
+## Descripció
 Projecte de joc Bomberman multijugador desenvolupat amb **Unity (client)** i **Node.js (backend)** que permet a dos jugadors competir en temps real a través d'una arquitectura de microserveis. El sistema inclou gestió d'usuaris, creació de partides, i sincronització en temps real mitjançant **WebSocket**.
 
 ---
 
-## 🛠️ Gestió i Disseny
+## Gestió i Disseny
 * **Gestor de Tasques:** 
 * **Prototip Gràfic:** 
 * **URL de Producció:** Pendent de desplegar
@@ -77,35 +77,27 @@ tr3-joc-fionamondelo/
     │       └── Destructible.cs  
     └── Packages/
 
-Tecnologies Utilitzades
-    Client
+---
 
-        Unity 2D & C#
+## Tecnologies Utilitzades
 
-        UnityWebRequest & ClientWebSocket
+### **Client**
+* Unity 2D & C#
+* UnityWebRequest & ClientWebSocket
 
-    Backend
+### **Backend**
+* Node.js & Express.js
+* MongoDB & Mongoose
+* WebSocket (ws)
+* Bcrypt & Dotenv
 
-        Node.js & Express.js
+### **Infraestructura**
+* Docker & Docker Compose
+* Nginx (API Gateway)
 
-        MongoDB & Mongoose
+---
 
-        WebSocket (ws)
-
-        Bcrypt & Dotenv
-
-
-Infraestructura
-
-    Docker & Docker Compose
-
-    Nginx (API Gateway)
-
-
-Arquitectura
-
-    Microserveis
-
-    API REST
-
-    WebSockets
+## Arquitectura
+* Microserveis
+* API REST
+* WebSockets
