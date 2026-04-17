@@ -1,26 +1,46 @@
 # BombermanTR3 - Joc Multijugador en Temps Real
 
-## 👥 Integrants
+## Integrants
 * Fiona Mondelo Giaramita 
 
 ---
 
-## 🎮 Nom del Projecte
+## Nom del Projecte
 **BombermanTR3** - Joc multijugador clàssic.
 
 ---
 
-## 📝 Descripció
+## Descripció
 Projecte de joc Bomberman multijugador desenvolupat amb **Unity (client)** i **Node.js (backend)** que permet a dos jugadors competir en temps real a través d'una arquitectura de microserveis. El sistema inclou gestió d'usuaris, creació de partides, i sincronització en temps real mitjançant **WebSocket**.
 
 ---
 
-## 🛠️ Gestió i Disseny
-* **Gestor de Tasques:** 
+## Gestió i Disseny
+* **Gestor de Tasques:** https://tree.taiga.io/project/66fiona66-dam_fionamondelo/timeline 
 * **Prototip Gràfic:** 
 * **URL de Producció:** Pendent de desplegar
 
 ---
+## Tecnologies Utilitzades
+
+### **Client**
+* Unity 2D & C#
+* UnityWebRequest & ClientWebSocket
+
+### **Backend**
+* Node.js & Express.js
+* MongoDB & Mongoose
+* WebSocket (ws)
+* Bcrypt & Dotenv
+
+### **Infraestructura**
+* Docker & Docker Compose
+* Nginx (API Gateway)
+
+## Arquitectura
+* Microserveis
+* API REST
+* WebSockets
 
 ## 📂 Esquema de les Carpetes del Projecte
 ```text
@@ -77,35 +97,6 @@ tr3-joc-fionamondelo/
     │       └── Destructible.cs  
     └── Packages/
 
-Tecnologies Utilitzades
-    Client
-
-        Unity 2D & C#
-
-        UnityWebRequest & ClientWebSocket
-
-    Backend
-
-        Node.js & Express.js
-
-        MongoDB & Mongoose
-
-        WebSocket (ws)
-
-        Bcrypt & Dotenv
+---
 
 
-Infraestructura
-
-    Docker & Docker Compose
-
-    Nginx (API Gateway)
-
-
-Arquitectura
-
-    Microserveis
-
-    API REST
-
-    WebSockets
