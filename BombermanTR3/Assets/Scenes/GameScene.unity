@@ -2070,6 +2070,9 @@ GameObject:
   - component: {fileID: 1392954153}
   - component: {fileID: 1392954152}
   - component: {fileID: 1392954151}
+  - component: {fileID: 1392954158}
+  - component: {fileID: 1392954157}
+  - component: {fileID: 1392954156}
   m_Layer: 3
   m_Name: Player 2
   m_TagString: Player
@@ -2125,6 +2128,7 @@ MonoBehaviour:
   spriteRendererRight: {fileID: 925218822}
   spriteRendererDeath: {fileID: 292025627}
   esMeu: 0
+  controlledByAI: 0
 --- !u!58 &1392954153
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2208,6 +2212,69 @@ Transform:
   - {fileID: 292025629}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1392954156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392954150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecisionPeriod: 5
+  DecisionStep: 0
+  TakeActionsBetweenDecisions: 1
+--- !u!114 &1392954157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392954150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58d250b57c1a7029886408f82e9fbd16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 0
+  spawnPosition: {x: 0.5, y: 0.5, z: 0}
+--- !u!114 &1392954158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392954150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1c4e0b1822b495aa52bc52839ecb30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BrainParameters:
+    VectorObservationSize: 4
+    NumStackedVectorObservations: 1
+    m_ActionSpec:
+      m_NumContinuousActions: 0
+      BranchSizes: 06000000
+    VectorActionSize: 06000000
+    VectorActionDescriptions: []
+    VectorActionSpaceType: 0
+    hasUpgradedBrainParametersWithActionSpec: 1
+  m_Model: {fileID: 5022602860645237092, guid: afbbc8f5563161df8a6ede97072f2bf7, type: 3}
+  m_InferenceDevice: 0
+  m_BehaviorType: 0
+  m_BehaviorName: My Behavior
+  TeamId: 0
+  m_UseChildSensors: 1
+  m_UseChildActuators: 1
+  m_DeterministicInference: 0
+  m_ObservableAttributeHandling: 0
 --- !u!1 &1453670785
 GameObject:
   m_ObjectHideFlags: 0
@@ -2599,6 +2666,7 @@ MonoBehaviour:
   spriteRendererRight: {fileID: 1593040274}
   spriteRendererDeath: {fileID: 1256063599}
   esMeu: 0
+  controlledByAI: 0
 --- !u!114 &1670710926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4878,6 +4946,7 @@ MonoBehaviour:
   nomUsuari: 
   codiSala: 
   esPrimary: 0
+  isSinglePlayer: 0
   bombPrefab: {fileID: 0}
   spawnableItems:
   - {fileID: 5112010509734134689, guid: 7f83fbc9406a79045b607a6ecb3a2214, type: 3}

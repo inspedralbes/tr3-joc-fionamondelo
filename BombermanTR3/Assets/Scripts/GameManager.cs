@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public string nomUsuari;
     public string codiSala;
     public bool esPrimary;
+    public bool isSinglePlayer;
 
     public GameObject bombPrefab;
     public GameObject[] spawnableItems;
@@ -142,7 +143,7 @@ public class GameManager : MonoBehaviour
             if (winner != null)
             {
                 MovementController mc = winner.GetComponent<MovementController>();
-                if (mc != null && mc.esMeu)
+                if (mc != null && mc.esMeu && !isSinglePlayer)
                 {
                     StartCoroutine(ApiManager.Instance.FinalitzarPartida(codiSala, usuariId, 
                         (exit) => {},

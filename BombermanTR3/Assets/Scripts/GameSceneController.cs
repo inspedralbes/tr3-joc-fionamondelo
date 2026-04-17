@@ -25,15 +25,38 @@ public class GameSceneController : MonoBehaviour
             MovementController m1 = player1.GetComponent<MovementController>();
             MovementController m2 = player2.GetComponent<MovementController>();
 
-            if (GameManager.Instance.esPrimary)
+            if (GameManager.Instance.isSinglePlayer)
             {
                 m1.esMeu = true;
-                m2.esMeu = false;
+                m1.controlledByAI = false;
+                
+                m2.esMeu = true; // Necessari per que MovementController mogui el rigidBody
+                m2.controlledByAI = true;
+
+                // Si estem en mode individual, activem l'IA al jugador 2
+                BombermanAIAgent ai = player2.GetComponent<BombermanAIAgent>();
+                if (ai != null) {
+                    ai.enabled = true;
+                    ai.spawnPosition = player2.transform.position;
+                }
             }
             else
             {
-                m1.esMeu = false;
-                m2.esMeu = true;
+                // Mode multijugador existent
+                if (GameManager.Instance.esPrimary)
+                {
+                    m1.esMeu = true;
+                    m2.esMeu = false;
+                }
+                else
+                {
+                    m1.esMeu = false;
+                    m2.esMeu = true;
+                }
+                
+                // Desactivem l'IA si per algun motiu estigués activada en multijugador
+                BombermanAIAgent ai = player2.GetComponent<BombermanAIAgent>();
+                if (ai != null) ai.enabled = false;
             }
         }
     }

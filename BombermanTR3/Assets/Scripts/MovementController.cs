@@ -26,6 +26,7 @@ public class MovementController : MonoBehaviour
     private AnimatedSpriteRenderer activeSpriteRenderer;
 
     public bool esMeu = true;
+    public bool controlledByAI = false;
 
     private void Start()
     {
@@ -44,7 +45,7 @@ public class MovementController : MonoBehaviour
 
     private void Update()
     {
-        if (!esMeu) return;
+        if (!esMeu || controlledByAI) return;
 
         Vector2 lastDirection = direction;
 
@@ -93,6 +94,8 @@ public class MovementController : MonoBehaviour
 
     private void EnviarPosicio()
     {
+        if (GameManager.Instance != null && GameManager.Instance.isSinglePlayer) return;
+
         if (WebSocketManager.Instance != null)
         {
             string msg = "{\"x\":" + rigidbody.position.x.ToString(CultureInfo.InvariantCulture) +
@@ -147,7 +150,7 @@ public class MovementController : MonoBehaviour
         }
     }
 
-    private void SetDirection(Vector2 newDirection, AnimatedSpriteRenderer spriteRenderer)
+    public void SetDirection(Vector2 newDirection, AnimatedSpriteRenderer spriteRenderer)
     {
         direction = newDirection;
 
@@ -158,6 +161,17 @@ public class MovementController : MonoBehaviour
 
         activeSpriteRenderer = spriteRenderer;
         activeSpriteRenderer.idle = direction == Vector2.zero;
+    }
+
+    public void SetAIDirection(Vector2 newDirection)
+    {
+        AnimatedSpriteRenderer targetSprite = activeSpriteRenderer;
+        if (newDirection == Vector2.up) targetSprite = spriteRendererUp;
+        else if (newDirection == Vector2.down) targetSprite = spriteRendererDown;
+        else if (newDirection == Vector2.left) targetSprite = spriteRendererLeft;
+        else if (newDirection == Vector2.right) targetSprite = spriteRendererRight;
+
+        SetDirection(newDirection, targetSprite);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

@@ -8,25 +8,23 @@ public class BombermanAIAgent : Agent
 {
     private Rigidbody2D rb;
     private BombController bombController;
-    public float moveSpeed = 5f;
+    private MovementController movementController;
     public Vector3 spawnPosition = new Vector3(0.5f, 0.5f, 0);
 
     public override void Initialize()
     {
         rb = GetComponent<Rigidbody2D>();
         bombController = GetComponent<BombController>();
+        movementController = GetComponent<MovementController>();
     }
 
     public override void OnEpisodeBegin()
     {
-        rb.linearVelocity = Vector2.zero;
+        if (rb != null) rb.linearVelocity = Vector2.zero;
         transform.position = spawnPosition;
         
-        Bomb[] bombs = FindObjectsByType<Bomb>(FindObjectsSortMode.None);
-        foreach (var b in bombs) Destroy(b.gameObject);
-
-        Explosion[] explosions = FindObjectsByType<Explosion>(FindObjectsSortMode.None);
-        foreach (var e in explosions) Destroy(e.gameObject);
+        // No destruïm objectes si estem en joc real, ML-Agents s'encarrega d'això en training
+        // Però per si de cas, comprovem si estem en mode training (podríem afegir un flag si cal)
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -34,7 +32,19 @@ public class BombermanAIAgent : Agent
         sensor.AddObservation(transform.localPosition.x);
         sensor.AddObservation(transform.localPosition.y);
 
-        GameObject player = GameObject.FindWithTag("Player");
+        // Buscar el jugador humà principal
+        GameObject player = null;
+        if (GameManager.Instance != null && GameManager.Instance.players != null) {
+            foreach(var p in GameManager.Instance.players) {
+                if (p != null && p != gameObject) {
+                    player = p;
+                    break;
+                }
+            }
+        }
+        
+        if (player == null) player = GameObject.FindWithTag("Player");
+
         if (player != null)
         {
             Vector2 toPlayer = player.transform.position - transform.position;
@@ -70,8 +80,9 @@ public class BombermanAIAgent : Agent
                 break;
         }
 
-        Vector2 translation = moveDir * moveSpeed * Time.fixedDeltaTime;
-        rb.MovePosition(rb.position + translation);
+        if (movementController != null) {
+            movementController.SetAIDirection(moveDir);
+        }
 
         AddReward(-0.001f);
     }

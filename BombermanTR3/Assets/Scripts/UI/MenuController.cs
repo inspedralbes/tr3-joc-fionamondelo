@@ -24,11 +24,18 @@ public class MenuController : MonoBehaviour
 
     void CarregaEscenaJoc()
     {
+        if (GameManager.Instance != null) {
+            GameManager.Instance.isSinglePlayer = true;
+            GameManager.Instance.esPrimary = true; // El jugador 1 sempre és el local en individual
+        }
         SceneManager.LoadScene("GameScene");
     }
 
     void CarregaEscenaLobby()
     {
+        if (GameManager.Instance != null) {
+            GameManager.Instance.isSinglePlayer = false;
+        }
         SceneManager.LoadScene("LobbyScene");
     }
 }
