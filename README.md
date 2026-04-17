@@ -16,7 +16,7 @@ Projecte de joc Bomberman multijugador desenvolupat amb **Unity (client)** i **N
 ---
 
 ## Gestió i Disseny
-* **Gestor de Tasques:** 
+* **Gestor de Tasques:** https://tree.taiga.io/project/66fiona66-dam_fionamondelo/timeline 
 * **Prototip Gràfic:** 
 * **URL de Producció:** Pendent de desplegar
 
