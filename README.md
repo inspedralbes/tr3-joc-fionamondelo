@@ -21,6 +21,26 @@ Projecte de joc Bomberman multijugador desenvolupat amb **Unity (client)** i **N
 * **URL de Producció:** Pendent de desplegar
 
 ---
+## Tecnologies Utilitzades
+
+### **Client**
+* Unity 2D & C#
+* UnityWebRequest & ClientWebSocket
+
+### **Backend**
+* Node.js & Express.js
+* MongoDB & Mongoose
+* WebSocket (ws)
+* Bcrypt & Dotenv
+
+### **Infraestructura**
+* Docker & Docker Compose
+* Nginx (API Gateway)
+
+## Arquitectura
+* Microserveis
+* API REST
+* WebSockets
 
 ## 📂 Esquema de les Carpetes del Projecte
 ```text
@@ -79,25 +99,4 @@ tr3-joc-fionamondelo/
 
 ---
 
-## Tecnologies Utilitzades
 
-### **Client**
-* Unity 2D & C#
-* UnityWebRequest & ClientWebSocket
-
-### **Backend**
-* Node.js & Express.js
-* MongoDB & Mongoose
-* WebSocket (ws)
-* Bcrypt & Dotenv
-
-### **Infraestructura**
-* Docker & Docker Compose
-* Nginx (API Gateway)
-
----
-
-## Arquitectura
-* Microserveis
-* API REST
-* WebSockets
