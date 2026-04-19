@@ -1,9 +1,7 @@
 <div align="center">
-  <img src="docs/img/logo.png" alt="BombermanTR3 Logo" width="200" />
-  <h1>💣 BombermanTR3 💣</h1>
+  <h1>BombermanTR3 </h1>
   <p><strong>Joc Multijugador en Temps Real amb Arquitectura de Microserveis</strong></p>
 
-  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
   [![Unity](https://img.shields.io/badge/Unity-2D-blue?logo=unity)](https://unity.com/)
   [![Node.js](https://img.shields.io/badge/Node.js-v18+-green?logo=node.js)](https://nodejs.org/)
   [![Docker](https://img.shields.io/badge/Docker-Enabled-blue?logo=docker)](https://www.docker.com/)
@@ -11,23 +9,23 @@
 
 ---
 
-## 👤 Integrant
+## Integrant
 * **Fiona Mondelo Giaramita**
 
 ---
 
-## 📝 Descripció
-**BombermanTR3** és un projecte de joc multijugador clàssic evolucionat per a la web moderna. Utilitza una arquitectura de microserveis per gestionar usuaris, partides i comunicació en temps real. El client està desenvolupat en **Unity 2D**, connectant-se a un backend robust en **Node.js** mitjançant **WebSockets** per a una experiència de joc fluida i sense retards.
+## Descripció
+**BombermanTR3** és un projecte de joc multijugador clàssic. Utilitza una arquitectura de microserveis per gestionar usuaris, partides i comunicació en temps real. El client està desenvolupat en **Unity 2D**, connectant-se a un backend robust en **Node.js** mitjançant **WebSockets** per a una experiència de joc fluida i sense retards.
 
 ---
 
-## 🚀 Accés al Projecte
+## Accés al Projecte
 * **🌍 URL de Producció:** [http://204.168.211.255:8080](http://204.168.211.255:8080)
 * **📊 Gestió de Tasques:** [Taiga Project](https://tree.taiga.io/project/66fiona66-dam_fionamondelo/timeline)
 
 ---
 
-## 🖼️ Diagrames del Projecte
+##  Diagrames del Projecte
 En aquesta secció pots trobar tota la documentació gràfica de l'arquitectura i el disseny del sistema:
 
 | Diagrama | Enllaç |
@@ -36,12 +34,9 @@ En aquesta secció pots trobar tota la documentació gràfica de l'arquitectura 
 | **Entitat-Relació** | [Veure Diagrama](./Diagrames/DiagramaEntitatRelació.png) |
 | **Microserveis** | [Veure Diagrama](./Diagrames/DiagramaMicroserveis.png) |
 
-> [!TIP]
-> Pots trobar tots els fitxers originals a la carpeta [/Diagrames](./Diagrames).
-
 ---
 
-## 🛠️ Tecnologies Utilitzades
+##  Tecnologies Utilitzades
 
 ### **Client (Frontend)**
 * **Unity 2D & C#**: Motor de joc i lògica de client.
@@ -77,7 +72,7 @@ tr3-joc-fionamondelo/
 
 ---
 
-## 🔧 Instal·lació i Execució
+## Instal·lació i Execució
 
 ### **Backend**
 1. Clona el repositori.
@@ -93,7 +88,3 @@ tr3-joc-fionamondelo/
 3. Prem **Play**!
 
 ---
-
-<div align="center">
-  <sub>Desenvolupat per Fiona Mondelo - 2026</sub>
-</div>
