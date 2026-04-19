@@ -7,6 +7,7 @@
             <ui:TextField label="Contrasenya" name="InputContrasenya" placeholder-text="Contrasenya..." password="true" />
             <ui:Button text="ENTRAR" name="BotoLogin" />
             <ui:Button text="Registrar-se" name="BotoRegistre" />
+            <ui:Button name="BotoTema" text="Mode Dia" />
             <ui:Label text="" name="TextMissatge" />
         </ui:VisualElement>
     </ui:VisualElement>

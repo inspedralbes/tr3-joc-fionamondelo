@@ -10,6 +10,10 @@ public class LoginController : MonoBehaviour
     private Button botoLogin;
     private Button botoRegistre;
     private Label textMissatge;
+    private Button botoTema;
+    private VisualElement contenidor;
+    private bool esModoDia = false;
+    private const string PrefTema = "TemaDia";
 
     private void Start()
     {
@@ -20,9 +24,42 @@ public class LoginController : MonoBehaviour
         botoLogin = root.Q<Button>("BotoLogin");
         botoRegistre = root.Q<Button>("BotoRegistre");
         textMissatge = root.Q<Label>("TextMissatge");
+        botoTema = root.Q<Button>("BotoTema");
+        contenidor = root.Q<VisualElement>("Contenidor");
 
         botoLogin.clicked += OnLogin;
         botoRegistre.clicked += OnRegistre;
+        botoTema.clicked += AlternarTema;
+
+        CarregarTema();
+    }
+
+    private void CarregarTema()
+    {
+        esModoDia = PlayerPrefs.GetInt(PrefTema, 0) == 1;
+        AplicarTema();
+    }
+
+    private void AlternarTema()
+    {
+        esModoDia = !esModoDia;
+        PlayerPrefs.SetInt(PrefTema, esModoDia ? 1 : 0);
+        PlayerPrefs.Save();
+        AplicarTema();
+    }
+
+    private void AplicarTema()
+    {
+        if (esModoDia)
+        {
+            contenidor.AddToClassList("tema-clau");
+            botoTema.text = "Mode Nit";
+        }
+        else
+        {
+            contenidor.RemoveFromClassList("tema-clau");
+            botoTema.text = "Mode Dia";
+        }
     }
 
     private void OnLogin()
