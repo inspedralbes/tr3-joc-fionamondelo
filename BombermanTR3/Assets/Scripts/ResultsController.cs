@@ -32,29 +32,39 @@ public class ResultsController : MonoBehaviour
     {
         if (GameManager.Instance == null) return;
 
-        string codiSala = GameManager.Instance.codiSala;
-
         if (textResultat != null)
         {
             textResultat.text = "Carregant resultats...";
         }
 
-        StartCoroutine(ApiManager.Instance.GetPartida(codiSala, 
-            (json) => {
-                ApiManager.PartidaData partida = JsonUtility.FromJson<ApiManager.PartidaData>(json);
-                if (partida != null && partida.guanyador != null)
-                {
-                    textResultat.text = partida.guanyador.nomUsuari;
-                }
-                else
-                {
-                    textResultat.text = "Partida finalitzada (Empat o sense dades).";
-                }
-            },
-            (error) => {
-                textResultat.text = "Error al carregar resultats.";
+        if (GameManager.Instance.isSinglePlayer)
+        {
+            if (textResultat != null)
+            {
+                textResultat.text = GameManager.Instance.guanyadorLocalNom;
             }
-        ));
+        }
+        else
+        {
+            string codiSala = GameManager.Instance.codiSala;
+
+            StartCoroutine(ApiManager.Instance.GetPartida(codiSala, 
+                (json) => {
+                    ApiManager.PartidaData partida = JsonUtility.FromJson<ApiManager.PartidaData>(json);
+                    if (partida != null && partida.guanyador != null)
+                    {
+                        textResultat.text = partida.guanyador.nomUsuari;
+                    }
+                    else
+                    {
+                        textResultat.text = "Partida finalitzada (Empat o sense dades).";
+                    }
+                },
+                (error) => {
+                    textResultat.text = "Error al carregar resultats.";
+                }
+            ));
+        }
 
         if (WebSocketManager.Instance != null)
         {

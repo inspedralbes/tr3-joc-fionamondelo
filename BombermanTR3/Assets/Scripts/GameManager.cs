@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public string codiSala;
     public bool esPrimary;
     public bool isSinglePlayer;
+    public string guanyadorLocalNom;
 
     public GameObject bombPrefab;
     public GameObject[] spawnableItems;
@@ -143,13 +144,22 @@ public class GameManager : MonoBehaviour
             if (winner != null)
             {
                 MovementController mc = winner.GetComponent<MovementController>();
-                if (mc != null && mc.esMeu && !isSinglePlayer)
+                
+                if (isSinglePlayer)
+                {
+                    guanyadorLocalNom = (mc != null && mc.controlledByAI) ? "IA" : nomUsuari;
+                }
+                else if (mc != null && mc.esMeu)
                 {
                     StartCoroutine(ApiManager.Instance.FinalitzarPartida(codiSala, usuariId, 
                         (exit) => {},
                         (err) => {}
                     ));
                 }
+            }
+            else
+            {
+                guanyadorLocalNom = "Empat";
             }
 
             Invoke(nameof(LoadResultsScene), 2f);
