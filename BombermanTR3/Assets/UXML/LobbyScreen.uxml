@@ -1,0 +1,14 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/USS/LobbyStyles.uss" />
+    <ui:VisualElement name="Contenidor" style="flex-grow: 1;">
+        <ui:VisualElement name="PanellLobby">
+            <ui:Button text="CREAR PARTIDA" name="BotoCrearPartida" />
+            <ui:TextField label="Codi Sala" name="InputCodiSala" placeholder-text="Introdueix codi..." />
+            <ui:Button text="UNIR-SE" name="BotoUnirse" />
+            <ui:Label text="Codi sala: " name="TextCodiSala" style="display: none;" />
+            <ui:Label text="Esperant jugadors..." name="TextEstat" style="display: none;" />
+            <ui:Label text="" name="TextError" />
+            <ui:Button text="INICIAR PARTIDA" name="BotoIniciar" style="display: none;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

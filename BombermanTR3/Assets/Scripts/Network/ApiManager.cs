@@ -1,0 +1,139 @@
+using UnityEngine;
+using UnityEngine.Networking;
+using System;
+using System.Collections;
+using System.Text;
+
+public class ApiManager : MonoBehaviour
+{
+    public static ApiManager Instance { get; private set; }
+    public string serverIp = "204.168.211.255";
+    public bool useLocalhost = true;
+
+    private string BaseUrl => useLocalhost ? "http://localhost:8080" : $"http://{serverIp}:8080";
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public IEnumerator RegistrarUsuari(string nomUsuari, string contrasenya, Action<string> onSuccess, Action<string> onError)
+    {
+        string url = BaseUrl + "/api/usuaris/registrar";
+        UserRegistration data = new UserRegistration { nomUsuari = nomUsuari, alias = nomUsuari, contrasenya = contrasenya };
+        yield return PostRequest(url, JsonUtility.ToJson(data), onSuccess, onError);
+    }
+
+    public IEnumerator LoginUsuari(string nomUsuari, string contrasenya, Action<string> onSuccess, Action<string> onError)
+    {
+        string url = BaseUrl + "/api/usuaris/login";
+        UserLogin data = new UserLogin { nomUsuari = nomUsuari, contrasenya = contrasenya };
+        yield return PostRequest(url, JsonUtility.ToJson(data), onSuccess, onError);
+    }
+
+    public IEnumerator CrearPartida(Action<string> onSuccess, Action<string> onError)
+    {
+        string url = BaseUrl + "/api/partides/crear";
+        yield return PostRequest(url, "{}", onSuccess, onError);
+    }
+
+    public IEnumerator UnirsePartida(string codiSala, string usuariId, Action<string> onSuccess, Action<string> onError)
+    {
+        string url = BaseUrl + "/api/partides/unirse";
+        JoinGame data = new JoinGame { codiSala = codiSala, usuariId = usuariId };
+        yield return PostRequest(url, JsonUtility.ToJson(data), onSuccess, onError);
+    }
+
+    public IEnumerator FinalitzarPartida(string codiSala, string guanyadorId, Action<string> onSuccess, Action<string> onError)
+    {
+        string url = BaseUrl + "/api/partides/finalitzar";
+        EndGame data = new EndGame { codiSala = codiSala, guanyadorId = guanyadorId };
+        yield return PostRequest(url, JsonUtility.ToJson(data), onSuccess, onError);
+    }
+
+    public IEnumerator GetPartida(string codiSala, Action<string> onSuccess, Action<string> onError)
+    {
+        string url = BaseUrl + "/api/partides/" + codiSala;
+        yield return GetRequest(url, onSuccess, onError);
+    }
+
+    private IEnumerator PostRequest(string url, string jsonData, Action<string> onSuccess, Action<string> onError)
+    {
+        Debug.Log(">>> API CALL: " + url + "\nJSON: " + jsonData);
+        using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
+        {
+            byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonData);
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                onSuccess?.Invoke(request.downloadHandler.text);
+            }
+            else
+            {
+                onError?.Invoke(request.error);
+            }
+        }
+    }
+
+    private IEnumerator GetRequest(string url, Action<string> onSuccess, Action<string> onError)
+    {
+        Debug.Log(">>> API CALL (GET): " + url);
+        using (UnityWebRequest request = UnityWebRequest.Get(url))
+        {
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                onSuccess?.Invoke(request.downloadHandler.text);
+            }
+            else
+            {
+                onError?.Invoke(request.error);
+            }
+        }
+    }
+
+    [Serializable]
+    private class UserRegistration { public string nomUsuari; public string alias; public string contrasenya; }
+    [Serializable]
+    private class UserLogin { public string nomUsuari; public string contrasenya; }
+    [Serializable]
+    private class JoinGame { public string codiSala; public string usuariId; }
+    [Serializable]
+    private class EndGame { public string codiSala; public string guanyadorId; }
+
+    [Serializable]
+    public class RankingWrapper { public UserStats[] ranking; }
+
+    [Serializable]
+    public class UserStats { public string nomUsuari; public int victories; }
+
+    [Serializable]
+    public class PartidaData
+    {
+        public string codiSala;
+        public string estat;
+        public UserInfo[] jugadors;
+        public UserInfo guanyador;
+    }
+
+    [Serializable]
+    public class UserInfo
+    {
+        public string _id;
+        public string nomUsuari;
+    }
+}

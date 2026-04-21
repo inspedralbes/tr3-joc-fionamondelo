@@ -1,0 +1,65 @@
+{
+    "BombermanBehavior": {
+        "checkpoints": [
+            {
+                "steps": 499941,
+                "file_path": "results/Bomberman_V1/BombermanBehavior/BombermanBehavior-499941.onnx",
+                "reward": -8.630000501871109,
+                "creation_time": 1776409009.7788842,
+                "auxillary_file_paths": [
+                    "results/Bomberman_V1/BombermanBehavior/BombermanBehavior-499941.pt"
+                ]
+            },
+            {
+                "steps": 999969,
+                "file_path": "results/Bomberman_V1/BombermanBehavior/BombermanBehavior-999969.onnx",
+                "reward": -3.5002001762390136,
+                "creation_time": 1776411642.21872,
+                "auxillary_file_paths": [
+                    "results/Bomberman_V1/BombermanBehavior/BombermanBehavior-999969.pt"
+                ]
+            },
+            {
+                "steps": 1499959,
+                "file_path": "results/Bomberman_V1/BombermanBehavior/BombermanBehavior-1499959.onnx",
+                "reward": null,
+                "creation_time": 1776414270.4310637,
+                "auxillary_file_paths": [
+                    "results/Bomberman_V1/BombermanBehavior/BombermanBehavior-1499959.pt"
+                ]
+            },
+            {
+                "steps": 1999993,
+                "file_path": "results/Bomberman_V1/BombermanBehavior/BombermanBehavior-1999993.onnx",
+                "reward": -43.779002994298935,
+                "creation_time": 1776418545.8071759,
+                "auxillary_file_paths": [
+                    "results/Bomberman_V1/BombermanBehavior/BombermanBehavior-1999993.pt"
+                ]
+            },
+            {
+                "steps": 2000057,
+                "file_path": "results/Bomberman_V1/BombermanBehavior/BombermanBehavior-2000057.onnx",
+                "reward": -43.779002994298935,
+                "creation_time": 1776418545.8327885,
+                "auxillary_file_paths": [
+                    "results/Bomberman_V1/BombermanBehavior/BombermanBehavior-2000057.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 2000057,
+            "file_path": "results/Bomberman_V1/BombermanBehavior.onnx",
+            "reward": -43.779002994298935,
+            "creation_time": 1776418545.8327885,
+            "auxillary_file_paths": [
+                "results/Bomberman_V1/BombermanBehavior/BombermanBehavior-2000057.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}
